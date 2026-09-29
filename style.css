@@ -21,9 +21,9 @@ body {
 ========================= */
 
 .header {
-    background: #AD806D;
-    color: white;
-    padding: 32px 20px;
+    background: #8F6755;
+    color: #FFFFFF;
+    padding: 44px 20px 40px;
     border-radius: 0 0 18px 18px;
 }
 
@@ -31,25 +31,131 @@ body {
     width: 92%;
     max-width: 1150px;
     margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.header-text {
+    flex: 1;
 }
 
 .lab-label {
     font-size: 12px;
     letter-spacing: 2px;
     font-weight: bold;
-    opacity: 0.9;
-    margin-bottom: 7px;
+    opacity: 0.85;
+    margin-bottom: 12px;
 }
 
 .header h1 {
-    font-size: 32px;
-    margin-bottom: 5px;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 46px;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin-bottom: 12px;
 }
 
-.header p {
-    font-size: 15px;
+.header .subtitle {
+    font-size: 17px;
+    max-width: 480px;
+    opacity: 0.92;
 }
 
+
+/* ---------- Credits ---------- */
+
+.credits {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+
+    max-width: 520px;
+    margin-top: 22px;
+    padding-top: 18px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.credits-label {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-right: 4px;
+}
+
+.chip {
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+
+    padding: 4px 14px;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+
+/* ---------- Memory-block graphic ---------- */
+
+.header-blocks {
+    display: grid;
+    grid-template-columns: repeat(10, 22px);
+    grid-auto-rows: 22px;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.header-blocks i {
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.header-blocks i:nth-child(4n) {
+    background: rgba(255, 255, 255, 0.26);
+}
+
+.header-blocks i:nth-child(7n + 2) {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.header-blocks i:nth-child(13n + 5) {
+    background: #FFF8F5;
+}
+
+
+/* =========================
+   MOBILE
+   In your existing @media (max-width: 800px) block,
+   DELETE the old ".header h1 { font-size: 25px; }" rule
+   and add these instead.
+========================= */
+
+@media (max-width: 800px) {
+
+    .header-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header h1 {
+        font-size: 32px;
+    }
+
+    .header-blocks {
+        display: none;
+    }
+
+}
+
+.header .done-by {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.9;
+}
 
 /* =========================
    NAVIGATION
