@@ -844,269 +844,217 @@
 
         <!-- ================= QUIZ ================= -->
 
-        <section class="card" id="quiz">
+        <!-- ================= QUIZ ================= -->
 
-            <div class="section-number">08</div>
+<section class="card" id="quiz">
 
-            <h2>Assessment / Quiz</h2>
+    <div class="section-number">08</div>
 
+    <h2>Assessment / Quiz</h2>
 
-            <form id="quizForm">
-
-
-                <!-- Q1 -->
-
-                <div class="quiz-question">
-
-                    <p>
-                        1. What is the primary purpose of Argon2i?
-                    </p>
-
-                    <label>
-                        <input
-                            type="radio"
-                            name="q1"
-                            value="a"
-                        >
-                        File compression
-                    </label>
-
-                    <label>
-                        <input
-                            type="radio"
-                            name="q1"
-                            value="b"
-                        >
-                        Password hashing
-                    </label>
-
-                    <label>
-                        <input
-                            type="radio"
-                            name="q1"
-                            value="c"
-                        >
-                        Image processing
-                    </label>
-
-                    <label>
-                        <input
-                            type="radio"
-                            name="q1"
-                            value="d"
-                        >
-                        Network routing
-                    </label>
-
-                </div>
+    <p class="description">
+        Test your understanding of Argon2i password hashing,
+        verification, salts, and hashing parameters.
+    </p>
 
 
-                <!-- Q2 -->
+    <!-- QUESTION 1 -->
 
-                <div class="quiz-question">
+    <div class="quiz-question">
 
-                    <p>
-                        2. Which Argon2 variant is used in this experiment?
-                    </p>
+        <p>
+            <strong>1.</strong>
+            The same password is hashed twice using Argon2i,
+            but a different random salt is generated each time.
+            What should normally happen?
+        </p>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q2"
-                            value="a"
-                        >
-                        Argon2d
-                    </label>
+        <label>
+            <input type="radio" name="q1" value="a">
+            Both hashes will always be identical
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q2"
-                            value="b"
-                        >
-                        Argon2i
-                    </label>
+        <label>
+            <input type="radio" name="q1" value="b">
+            The resulting hashes will normally be different
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q2"
-                            value="c"
-                        >
-                        Argon2id
-                    </label>
+        <label>
+            <input type="radio" name="q1" value="c">
+            The second hash will be invalid
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q2"
-                            value="d"
-                        >
-                        Argon2x
-                    </label>
+        <label>
+            <input type="radio" name="q1" value="d">
+            Argon2i will reject the password
+        </label>
 
-                </div>
+    </div>
 
 
-                <!-- Q3 -->
+    <!-- QUESTION 2 -->
 
-                <div class="quiz-question">
+    <div class="quiz-question">
 
-                    <p>
-                        3. What does memory cost determine?
-                    </p>
+        <p>
+            <strong>2.</strong>
+            In this experiment, the memory cost of Argon2i is
+            increased from 32 MiB to 128 MiB while the other
+            parameters remain unchanged. What is the most
+            appropriate conclusion?
+        </p>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q3"
-                            value="a"
-                        >
-                        Password length
-                    </label>
+        <label>
+            <input type="radio" name="q2" value="a">
+            The password becomes four times longer
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q3"
-                            value="b"
-                        >
-                        Amount of memory used
-                    </label>
+        <label>
+            <input type="radio" name="q2" value="b">
+            The hash output automatically becomes four times longer
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q3"
-                            value="c"
-                        >
-                        Number of users
-                    </label>
+        <label>
+            <input type="radio" name="q2" value="c">
+            Argon2i requires substantially more memory during hashing
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q3"
-                            value="d"
-                        >
-                        Screen resolution
-                    </label>
+        <label>
+            <input type="radio" name="q2" value="d">
+            The salt is no longer required
+        </label>
 
-                </div>
+    </div>
 
 
-                <!-- Q4 -->
+    <!-- QUESTION 3 -->
 
-                <div class="quiz-question">
+    <div class="quiz-question">
 
-                    <p>
-                        4. What generally happens when time cost increases?
-                    </p>
+        <p>
+            <strong>3.</strong>
+            A user creates an Argon2i hash and later enters an
+            incorrect password during verification. What should
+            happen?
+        </p>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q4"
-                            value="a"
-                        >
-                        Computational work increases
-                    </label>
+        <label>
+            <input type="radio" name="q3" value="a">
+            The stored hash should be decrypted
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q4"
-                            value="b"
-                        >
-                        Password becomes shorter
-                    </label>
+        <label>
+            <input type="radio" name="q3" value="b">
+            The password should fail verification
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q4"
-                            value="c"
-                        >
-                        Salt is removed
-                    </label>
+        <label>
+            <input type="radio" name="q3" value="c">
+            A new password should automatically be generated
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q4"
-                            value="d"
-                        >
-                        Hashing stops
-                    </label>
+        <label>
+            <input type="radio" name="q3" value="d">
+            The salt should be removed
+        </label>
 
-                </div>
+    </div>
 
 
-                <!-- Q5 -->
+    <!-- QUESTION 4 -->
 
-                <div class="quiz-question">
+    <div class="quiz-question">
 
-                    <p>
-                        5. What does parallelism control?
-                    </p>
+        <p>
+            <strong>4.</strong>
+            Consider the following Argon2i encoded hash:
+        </p>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q5"
-                            value="a"
-                        >
-                        Number of parallel lanes
-                    </label>
+        <div class="formula">
+            $argon2i$v=19$m=65536,t=3,p=2$...
+        </div>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q5"
-                            value="b"
-                        >
-                        Password length
-                    </label>
+        <p>
+            What do
+            <strong>m=65536, t=3, p=2</strong>
+            represent?
+        </p>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q5"
-                            value="c"
-                        >
-                        Hash length
-                    </label>
+        <label>
+            <input type="radio" name="q4" value="a">
+            Memory = 65536 KiB, Time Cost = 3, Parallelism = 2
+        </label>
 
-                    <label>
-                        <input
-                            type="radio"
-                            name="q5"
-                            value="d"
-                        >
-                        Salt length
-                    </label>
+        <label>
+            <input type="radio" name="q4" value="b">
+            Memory = 65536 bytes, Time Cost = 2, Parallelism = 3
+        </label>
 
-                </div>
+        <label>
+            <input type="radio" name="q4" value="c">
+            Memory = 3 KiB, Time Cost = 65536, Parallelism = 2
+        </label>
+
+        <label>
+            <input type="radio" name="q4" value="d">
+            Memory = 2 KiB, Time Cost = 3, Parallelism = 65536
+        </label>
+
+    </div>
 
 
-                <button
-                    type="button"
-                    id="quizBtn"
-                    class="primary-btn"
-                >
-                    Submit Quiz
-                </button>
+    <!-- QUESTION 5 -->
 
-            </form>
+    <div class="quiz-question">
+
+        <p>
+            <strong>5.</strong>
+            During the experiment, the time cost of Argon2i
+            is increased from 2 to 4 and the hashing time
+            increases. What is the best explanation?
+        </p>
+
+        <label>
+            <input type="radio" name="q5" value="a">
+            The password has become more complex
+        </label>
+
+        <label>
+            <input type="radio" name="q5" value="b">
+            The random salt has become larger
+        </label>
+
+        <label>
+            <input type="radio" name="q5" value="c">
+            Argon2i performs more computational work
+        </label>
+
+        <label>
+            <input type="radio" name="q5" value="d">
+            The hash is being encrypted twice
+        </label>
+
+    </div>
 
 
-            <div
-                id="quizResult"
-                class="quiz-result"
-            ></div>
+    <!-- SUBMIT BUTTON -->
 
-        </section>
+    <button
+        type="button"
+        id="quizBtn"
+        class="primary-btn">
+        Submit Quiz
+    </button>
 
+
+    <!-- RESULT -->
+
+    <div
+        id="quizResult"
+        class="quiz-result">
+    </div>
+
+</section>
 
         <!-- ================= REFERENCES ================= -->
 
