@@ -128,9 +128,6 @@ body {
 
 /* =========================
    MOBILE
-   In your existing @media (max-width: 800px) block,
-   DELETE the old ".header h1 { font-size: 25px; }" rule
-   and add these instead.
 ========================= */
 
 @media (max-width: 800px) {

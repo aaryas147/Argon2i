@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argon2i Lab - Automated Test Suite</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/argon2-browser@1.18.0/dist/argon2-bundled.min.js"></script>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="header-text">
+                <p class="lab-label">VIRTUAL CRYPTOGRAPHY LABORATORY</p>
+                <h1>Automated Test Suite</h1>
+                <p class="subtitle">
+                    Verifies hashing, verification, quiz and benchmark
+                    behaviour of the Argon2i virtual lab.
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+            <h2>Test Runner</h2>
+            <p class="description">
+                Automated tests for the Argon2i lab. The suite loads
+                the real script.js and exercises hashing, salt
+                behaviour, verification, the quiz and the benchmark
+                against a minimal copy of the page's elements.
+            </p>
+            <button type="button" id="runTestsBtn" class="primary-btn">
+                Run All Tests
+            </button>
+            <div id="testSummary" class="status neutral">
+                Tests not started.
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Test</th>
+                            <th>Result</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testsTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Elements Under Test</h2>
+            <p class="description">
+                Minimal copy of the experiment page's elements that
+                script.js attaches to. Hidden from view.
+            </p>
+            <div class="test-dom" hidden>
+
+                <input type="checkbox" id="showPassword">
+                <input type="password" id="password">
+                <div id="hashStatus" class="status neutral"></div>
+                <button type="button" id="hashBtn"></button>
+                <select id="memory">
+                    <option value="16384">16 MB</option>
+                    <option value="65536" selected>64 MB</option>
+                    <option value="131072">128 MB</option>
+                </select>
+                <select id="time">
+                    <option value="1">1</option>
+                    <option value="3" selected>3</option>
+                    <option value="5">5</option>
+                </select>
+                <select id="parallelism">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="4">4</option>
+                </select>
+                <strong id="hashTime">-</strong>
+                <strong id="resultMemory">-</strong>
+                <strong id="resultTime">-</strong>
+                <strong id="resultParallelism">-</strong>
+                <input type="password" id="verifyPassword">
+                <button type="button" id="verifyBtn"></button>
+                <div id="verifyResult" class="status neutral"></div>
+                <select id="analysisMemory">
+                    <option value="16384">16 MB</option>
+                    <option value="65536" selected>64 MB</option>
+                </select>
+                <select id="analysisTime">
+                    <option value="1" selected>1</option>
+                    <option value="3">3</option>
+                </select>
+                <select id="analysisParallelism">
+                    <option value="1" selected>1</option>
+                </select>
+                <button type="button" id="benchmarkBtn"></button>
+                <div id="benchmarkStatus" class="status neutral"></div>
+                <table><tbody id="resultsTable"></tbody></table>
+                <div id="observations"></div>
+                <div class="quiz-question" id="qStub"></div>
+                <div class="quiz-question">
+                    <input type="radio" name="q1" value="a">
+                    <input type="radio" name="q1" value="b">
+                    <input type="radio" name="q1" value="c">
+                    <input type="radio" name="q1" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q2" value="a">
+                    <input type="radio" name="q2" value="b">
+                    <input type="radio" name="q2" value="c">
+                    <input type="radio" name="q2" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q3" value="a">
+                    <input type="radio" name="q3" value="b">
+                    <input type="radio" name="q3" value="c">
+                    <input type="radio" name="q3" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q4" value="a">
+                    <input type="radio" name="q4" value="b">
+                    <input type="radio" name="q4" value="c">
+                    <input type="radio" name="q4" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q5" value="a">
+                    <input type="radio" name="q5" value="b">
+                    <input type="radio" name="q5" value="c">
+                    <input type="radio" name="q5" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q6" value="a">
+                    <input type="radio" name="q6" value="b">
+                    <input type="radio" name="q6" value="c">
+                    <input type="radio" name="q6" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q7" value="a">
+                    <input type="radio" name="q7" value="b">
+                    <input type="radio" name="q7" value="c">
+                    <input type="radio" name="q7" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q8" value="a">
+                    <input type="radio" name="q8" value="b">
+                    <input type="radio" name="q8" value="c">
+                    <input type="radio" name="q8" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q9" value="a">
+                    <input type="radio" name="q9" value="b">
+                    <input type="radio" name="q9" value="c">
+                    <input type="radio" name="q9" value="d">
+                </div>
+                <div class="quiz-question">
+                    <input type="radio" name="q10" value="a">
+                    <input type="radio" name="q10" value="b">
+                    <input type="radio" name="q10" value="c">
+                    <input type="radio" name="q10" value="d">
+                </div>
+                <button type="button" id="quizBtn"></button>
+                <div id="quizResult" class="quiz-result"></div>
+                <button type="button" id="quizResetBtn"></button>
+
+                <input type="radio" name="rating" value="5">
+                <textarea id="feedbackText"></textarea>
+                <button type="button" id="feedbackBtn"></button>
+                <div id="feedbackResult"></div>
+            </div>
+        </section>
+
+
+    </main>
+
+    <script src="script.js"></script>
+    <script src="tests.js"></script>
+</body>
+
+</html>

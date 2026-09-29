@@ -17,7 +17,9 @@ To implement Argon2i password hashing and verification, and to analyze the effec
 - **Interactive experiment:** generate an Argon2i hash with a chosen memory cost, time cost and parallelism, and see the encoded hash and the hashing time.
 - **Password verification:** check whether a password matches the generated hash.
 - **Parameter analysis:** run benchmarks with different settings and compare execution times.
-- **Assessment and quiz:** questions to test understanding of salts, parameters and verification.
+- **Test cases:** documented test cases (TC01–TC12) covering hashing, verification, parameter analysis and the quiz, with expected and actual results.
+- **Automated test suite:** `tests.html` runs ten automated checks against the real experiment logic (hash format, salt uniqueness, determinism, verification, quiz mechanics and the benchmark).
+- **Assessment and quiz:** a ten-question quiz with per-question feedback, scoring and a retake option.
 - **References and feedback** sections.
 
 ## Tech stack
@@ -35,9 +37,11 @@ There is no backend and no build step.
 
 ```
 Argon2i/
-├── index.html   # Page structure and content (theory, experiment, quiz, etc.)
+├── index.html   # Page structure and content (theory, experiment, test cases, quiz, etc.)
 ├── style.css    # Styling and layout
 ├── script.js    # Hashing, verification, benchmark and quiz logic
+├── tests.html   # Automated test suite runner
+├── tests.js     # Automated test cases
 └── README.md
 ```
 
@@ -70,6 +74,7 @@ You can also open `index.html` directly, but a local server is more reliable.
 5. Change one parameter at a time and run the benchmark in the analysis section.
 6. Compare the execution times and read the observations.
 7. Attempt the quiz.
+8. Optionally open `tests.html` and click **Run All Tests** to see the automated test suite pass.
 
 ## Understanding the parameters
 

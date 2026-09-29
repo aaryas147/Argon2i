@@ -664,7 +664,12 @@ document.getElementById("quizBtn").addEventListener("click", function () {
         q2: "c",
         q3: "b",
         q4: "a",
-        q5: "c"
+        q5: "c",
+        q6: "b",
+        q7: "c",
+        q8: "b",
+        q9: "b",
+        q10: "a"
     };
 
     const explanations = {
@@ -677,13 +682,23 @@ document.getElementById("quizBtn").addEventListener("click", function () {
 
         q4: "Correct. m=65536 means 65536 KiB of memory, t=3 is the time cost, and p=2 is the parallelism.",
 
-        q5: "Correct. Increasing the time cost increases the computational work performed by Argon2i."
+        q5: "Correct. Increasing the time cost parameter increases the computational work performed by Argon2i.",
+
+        q6: "Correct. Argon2i is the variant with data-independent memory access, designed with side-channel resistance in mind.",
+
+        q7: "Correct. A random salt ensures the same password produces different hashes, defeating precomputed (rainbow) tables.",
+
+        q8: "Correct. Hashing is one-way; verification re-hashes the entered password with the stored salt and parameters and compares.",
+
+        q9: "Correct. Parallelism splits the work into lanes, which can reduce execution time on multi-core systems without changing the hash length.",
+
+        q10: "Correct. The entered password is hashed with the salt and parameters embedded in the encoded hash, then compared with the stored hash."
     };
 
 
     let score = 0;
 
-    const total = 5;
+    const total = 10;
 
 
     // Remove previous validation messages
@@ -879,7 +894,7 @@ document.getElementById("quizBtn").addEventListener("click", function () {
 
     }
 
-    else if (score >= 3) {
+    else if (score >= 7) {
 
         result.innerHTML =
             `
@@ -928,6 +943,9 @@ document.getElementById("quizBtn").addEventListener("click", function () {
 
 
     // ----------------------------------------
+
+
+
     // SCROLL TO RESULT
     // ----------------------------------------
 
@@ -940,6 +958,37 @@ document.getElementById("quizBtn").addEventListener("click", function () {
 
 
 // --------------------------------------------------
+// --------------------------------------------------
+// RETAKE QUIZ
+// --------------------------------------------------
+
+document.getElementById("quizResetBtn").addEventListener("click", function () {
+
+    // Clear all quiz radio selections
+    document.querySelectorAll('.quiz-question input[type="radio"]').forEach(function (r) {
+        r.checked = false;
+    });
+
+    // Remove feedback boxes
+    document.querySelectorAll(".quiz-feedback").forEach(function (el) {
+        el.remove();
+    });
+
+    // Restore default question styling
+    document.querySelectorAll(".quiz-question").forEach(function (question) {
+        question.style.border = "1px solid #E5D4CB";
+        question.style.background = "#FFF8F5";
+    });
+
+    // Clear the result box
+    const result = document.getElementById("quizResult");
+    result.innerHTML = "";
+    result.style.background = "";
+    result.style.color = "";
+    result.style.border = "";
+});
+
+
 // FEEDBACK
 // --------------------------------------------------
 
