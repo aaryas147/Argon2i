@@ -1,0 +1,762 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #FFF8F5;
+    color: #3F332E;
+    line-height: 1.6;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: #AD806D;
+    color: white;
+    padding: 32px 20px;
+    border-radius: 0 0 18px 18px;
+}
+
+.header-content {
+    width: 92%;
+    max-width: 1150px;
+    margin: auto;
+}
+
+.lab-label {
+    font-size: 12px;
+    letter-spacing: 2px;
+    font-weight: bold;
+    opacity: 0.9;
+    margin-bottom: 7px;
+}
+
+.header h1 {
+    font-size: 32px;
+    margin-bottom: 5px;
+}
+
+.header p {
+    font-size: 15px;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.navbar {
+    background: #FFFFFF;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 6px;
+
+    padding: 12px;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+
+    border-bottom: 1px solid #D8BFB2;
+
+    box-shadow:
+        0 2px 8px rgba(90, 60, 45, 0.08);
+}
+
+.navbar a {
+    color: #7A5545;
+
+    text-decoration: none;
+
+    padding: 8px 13px;
+
+    border-radius: 20px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+.navbar a:hover {
+    background: #F4E9E3;
+    color: #6B493B;
+}
+
+
+/* =========================
+   MAIN CONTAINER
+========================= */
+
+.container {
+    width: 92%;
+    max-width: 1100px;
+
+    margin: 30px auto;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+    position: relative;
+
+    background: #FFFFFF;
+
+    border-radius: 14px;
+
+    padding: 30px;
+
+    margin-bottom: 25px;
+
+    border: 1px solid #E5D4CB;
+
+    box-shadow:
+        0 3px 12px rgba(105, 70, 55, 0.08);
+}
+
+.section-number {
+    color: #AD806D;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 3px;
+}
+
+.card h2 {
+    color: #7A5545;
+
+    margin-bottom: 18px;
+
+    padding-bottom: 9px;
+
+    border-bottom: 2px solid #E8D8D0;
+}
+
+.card h3 {
+    color: #8F6755;
+
+    margin: 18px 0 8px;
+}
+
+.card p {
+    margin-bottom: 12px;
+}
+
+.card ul,
+.card ol {
+    padding-left: 25px;
+}
+
+.card li {
+    margin-bottom: 7px;
+}
+
+.lead {
+    font-size: 17px;
+}
+
+.description {
+    color: #6B554B;
+}
+
+
+/* =========================
+   OBJECTIVES
+========================= */
+
+.objectives li::marker {
+    color: #AD806D;
+    font-weight: bold;
+}
+
+
+/* =========================
+   THEORY BOXES
+========================= */
+
+.info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+
+    margin: 20px 0;
+}
+
+.info-box {
+    background: #FFF8F5;
+
+    padding: 20px;
+
+    border-radius: 10px;
+
+    border: 1px solid #E2CFC4;
+
+    border-top: 4px solid #AD806D;
+}
+
+.info-box h3 {
+    margin-top: 5px;
+
+    color: #7A5545;
+}
+
+.info-icon {
+    width: 35px;
+    height: 35px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #AD806D;
+
+    color: white;
+
+    font-weight: bold;
+
+    margin-bottom: 8px;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.variant-table {
+    overflow-x: auto;
+
+    margin-top: 15px;
+}
+
+table {
+    width: 100%;
+
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 12px;
+
+    text-align: left;
+
+    border: 1px solid #D8BFB2;
+}
+
+th {
+    background: #AD806D;
+
+    color: #FFFFFF;
+}
+
+td {
+    background: #FFFFFF;
+}
+
+tr:nth-child(even) td {
+    background: #FFF8F5;
+}
+
+
+/* =========================
+   FORMULA
+========================= */
+
+.formula {
+    background: #7A5545;
+
+    color: #FFFFFF;
+
+    padding: 20px;
+
+    border-radius: 9px;
+
+    text-align: center;
+
+    font-size: 17px;
+
+    margin-top: 20px;
+}
+
+.formula span {
+    padding: 0 8px;
+
+    color: #EBDAD1;
+}
+
+
+/* =========================
+   PROCEDURE
+========================= */
+
+.procedure-list li::marker {
+    color: #AD806D;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   FORM ELEMENTS
+========================= */
+
+label {
+    display: block;
+
+    font-weight: bold;
+
+    margin: 12px 0 6px;
+
+    color: #5A4035;
+}
+
+input[type="password"],
+input[type="text"],
+select,
+textarea {
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #D8BFB2;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+    background: #FFFFFF;
+
+    color: #3F332E;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+
+    border-color: #AD806D;
+
+    box-shadow:
+        0 0 0 3px rgba(173, 128, 109, 0.15);
+}
+
+textarea {
+    min-height: 100px;
+
+    resize: vertical;
+}
+
+
+/* =========================
+   PASSWORD CHECKBOX
+========================= */
+
+.show-password {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin: 8px 0 15px;
+}
+
+.show-password label {
+    margin: 0;
+
+    font-weight: normal;
+}
+
+.show-password input {
+    width: auto;
+}
+
+
+/* =========================
+   EXPERIMENT
+========================= */
+
+.experiment-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap: 25px;
+}
+
+.experiment-form {
+    padding: 5px;
+}
+
+.result-panel {
+    background: #FFF8F5;
+
+    border: 1px solid #E2CFC4;
+
+    border-radius: 10px;
+
+    padding: 20px;
+}
+
+.result-panel h3 {
+    margin-top: 0;
+
+    color: #7A5545;
+}
+
+#hashOutput {
+    min-height: 135px;
+
+    word-break: break-all;
+
+    font-family: monospace;
+
+    font-size: 13px;
+
+    background: #FFFFFF;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    border: none;
+
+    border-radius: 7px;
+
+    padding: 12px 20px;
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    margin-top: 15px;
+
+    transition: 0.2s ease;
+}
+
+.primary-btn {
+    background: #AD806D;
+
+    color: #FFFFFF;
+}
+
+.primary-btn:hover {
+    background: #8F6755;
+
+    transform: translateY(-1px);
+}
+
+.secondary-btn {
+    background: #7A5545;
+
+    color: #FFFFFF;
+}
+
+.secondary-btn:hover {
+    background: #624337;
+
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    background: #C8B5AB;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.status {
+    padding: 13px;
+
+    border-radius: 7px;
+
+    margin: 15px 0;
+
+    font-weight: bold;
+}
+
+.status.neutral {
+    background: #F4E9E3;
+
+    color: #6B493B;
+
+    border: 1px solid #E2CFC4;
+}
+
+.status.success {
+    background: #EEF6EF;
+
+    color: #35613B;
+
+    border: 1px solid #BDD6C1;
+}
+
+.status.error {
+    background: #FBECEC;
+
+    color: #8A3F3F;
+
+    border: 1px solid #E4BBBB;
+}
+
+
+/* =========================
+   STATISTICS
+========================= */
+
+.stats {
+    margin-top: 15px;
+}
+
+.stat {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding: 10px 0;
+
+    border-bottom: 1px solid #E5D4CB;
+}
+
+.stat strong {
+    color: #7A5545;
+}
+
+
+/* =========================
+   ANALYSIS
+========================= */
+
+.analysis-controls {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 15px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+
+    margin-top: 20px;
+}
+
+
+/* =========================
+   OBSERVATION
+========================= */
+
+.observation-box {
+    background: #FFF8F5;
+
+    padding: 18px;
+
+    border-radius: 8px;
+
+    border-left: 4px solid #AD806D;
+
+    color: #5A4035;
+
+    margin-top: 10px;
+}
+
+
+/* =========================
+   LEARNING
+========================= */
+
+.question-box {
+    background: #FFF8F5;
+
+    border-left: 4px solid #AD806D;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
+
+    border-radius: 7px;
+
+    border: 1px solid #E5D4CB;
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+.quiz-question {
+    background: #FFF8F5;
+
+    padding: 18px;
+
+    margin-bottom: 15px;
+
+    border-radius: 8px;
+
+    border: 1px solid #E5D4CB;
+}
+
+.quiz-question p {
+    font-weight: bold;
+
+    color: #6B493B;
+}
+
+.quiz-question label {
+    font-weight: normal;
+
+    margin: 8px 0;
+
+    color: #3F332E;
+}
+
+.quiz-question input {
+    width: auto;
+
+    margin-right: 7px;
+}
+
+.quiz-result {
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border-radius: 7px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   REFERENCES
+========================= */
+
+.references li {
+    margin-bottom: 12px;
+}
+
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.rating {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+}
+
+.rating label {
+    font-weight: normal;
+}
+
+.rating input {
+    width: auto;
+}
+
+#feedbackResult {
+    margin-top: 15px;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #7A5545;
+
+    color: #FFFFFF;
+
+    text-align: center;
+
+    padding: 25px;
+
+    margin-top: 30px;
+}
+
+footer p {
+    margin: 4px;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .experiment-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .analysis-controls {
+        grid-template-columns: 1fr;
+    }
+
+    .navbar {
+        position: static;
+    }
+
+    .header h1 {
+        font-size: 25px;
+    }
+
+    .card {
+        padding: 20px;
+    }
+
+    .formula {
+        font-size: 14px;
+    }
+
+}
