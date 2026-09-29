@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Argon2i Password Hashing - Virtual Lab</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Argon2 browser implementation -->
+    <script src="https://cdn.jsdelivr.net/npm/argon2-browser@1.18.0/dist/argon2-bundled.min.js"></script>
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+    <header class="header">
+
+        <div class="header-content">
+
+            <div>
+                <p class="lab-label">VIRTUAL CRYPTOGRAPHY LABORATORY</p>
+
+                <h1>Argon2i Password Hashing</h1>
+
+                <p>
+                    Implementation, Verification and Parameter Analysis
+                </p>
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= NAVIGATION ================= -->
+
+    <nav class="navbar">
+
+        <a href="#aim">Aim</a>
+        <a href="#theory">Theory</a>
+        <a href="#procedure">Procedure</a>
+        <a href="#experiment">Experiment</a>
+        <a href="#analysis">Analysis</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#references">References</a>
+        <a href="#feedback">Feedback</a>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+
+        <!-- ================= AIM ================= -->
+
+        <section class="card" id="aim">
+
+            <div class="section-number">01</div>
+
+            <h2>Aim</h2>
+
+            <p class="lead">
+                To implement Argon2i password hashing and verification
+                and analyze the effect of memory cost, time cost,
+                and parallelism parameters.
+            </p>
+
+
+            <h3>Objectives</h3>
+
+            <ul class="objectives">
+
+                <li>
+                    Understand the concept of password hashing.
+                </li>
+
+                <li>
+                    Understand the working principle of Argon2i.
+                </li>
+
+                <li>
+                    Generate an Argon2i password hash.
+                </li>
+
+                <li>
+                    Verify a password against an Argon2i hash.
+                </li>
+
+                <li>
+                    Study the effect of memory cost.
+                </li>
+
+                <li>
+                    Study the effect of time cost.
+                </li>
+
+                <li>
+                    Study the effect of parallelism.
+                </li>
+
+                <li>
+                    Compare execution times for different configurations.
+                </li>
+
+            </ul>
+
+        </section>
+
+
+        <!-- ================= THEORY ================= -->
+
+        <section class="card" id="theory">
+
+            <div class="section-number">02</div>
+
+            <h2>Relevant Theory</h2>
+
+
+            <h3>What is Argon2i?</h3>
+
+            <p>
+                Argon2i is a memory-hard password hashing algorithm
+                designed to make password guessing attacks more
+                computationally expensive.
+            </p>
+
+            <p>
+                Argon2i is one of the variants of Argon2 and was
+                designed with resistance against certain
+                side-channel attacks in mind.
+            </p>
+
+            <p>
+                Password hashing is different from encryption.
+                A password hash is not intended to be decrypted.
+                During authentication, the entered password is
+                hashed and the result is compared with the stored
+                password hash.
+            </p>
+
+
+            <h3>Important Parameters</h3>
+
+
+            <div class="info-grid">
+
+
+                <div class="info-box">
+
+                    <div class="info-icon">M</div>
+
+                    <h3>Memory Cost</h3>
+
+                    <p>
+                        Determines the amount of memory used during
+                        the hashing process. It is specified in KiB
+                        by the Argon2 implementation.
+                    </p>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-icon">T</div>
+
+                    <h3>Time Cost</h3>
+
+                    <p>
+                        Determines the computational effort or
+                        number of passes performed by the algorithm.
+                    </p>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="info-icon">P</div>
+
+                    <h3>Parallelism</h3>
+
+                    <p>
+                        Determines the number of parallel lanes
+                        used during the Argon2 computation.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <h3>Argon2 Variants</h3>
+
+            <div class="variant-table">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Variant</th>
+                            <th>General Characteristic</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+                                <strong>Argon2d</strong>
+                            </td>
+
+                            <td>
+                                Uses data-dependent memory access.
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <strong>Argon2i</strong>
+                            </td>
+
+                            <td>
+                                Uses data-independent memory access
+                                and is designed with side-channel
+                                resistance in mind.
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <td>
+                                <strong>Argon2id</strong>
+                            </td>
+
+                            <td>
+                                Combines characteristics of Argon2i
+                                and Argon2d.
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <div class="formula">
+
+                Password
+
+                <span>→</span>
+
+                Argon2i
+
+                <span>→</span>
+
+                Salt + Parameters
+
+                <span>→</span>
+
+                Password Hash
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PROCEDURE ================= -->
+
+        <section class="card" id="procedure">
+
+            <div class="section-number">03</div>
+
+            <h2>Step-by-Step Procedure</h2>
+
+            <ol class="procedure-list">
+
+                <li>
+                    Enter a password in the password input field.
+                </li>
+
+                <li>
+                    Select the desired memory cost.
+                </li>
+
+                <li>
+                    Select the time cost.
+                </li>
+
+                <li>
+                    Select the parallelism value.
+                </li>
+
+                <li>
+                    Click <strong>Generate Argon2i Hash</strong>.
+                </li>
+
+                <li>
+                    Observe the generated encoded hash.
+                </li>
+
+                <li>
+                    Observe the hashing execution time.
+                </li>
+
+                <li>
+                    Enter the original password in the verification
+                    section.
+                </li>
+
+                <li>
+                    Click <strong>Verify Password</strong>.
+                </li>
+
+                <li>
+                    Change one parameter at a time.
+                </li>
+
+                <li>
+                    Run the benchmark.
+                </li>
+
+                <li>
+                    Compare the measured execution times.
+                </li>
+
+            </ol>
+
+        </section>
+
+
+        <!-- ================= HASH EXPERIMENT ================= -->
+
+        <section class="card" id="experiment">
+
+            <div class="section-number">04</div>
+
+            <h2>Interactive Argon2i Experiment</h2>
+
+            <p class="description">
+                Enter a password and configure the Argon2i parameters.
+                The password is processed locally in the browser.
+            </p>
+
+
+            <div class="experiment-grid">
+
+
+                <!-- INPUT -->
+
+                <div class="experiment-form">
+
+                    <h3>Hash Configuration</h3>
+
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter password"
+                    >
+
+
+                    <div class="show-password">
+
+                        <input
+                            type="checkbox"
+                            id="showPassword"
+                        >
+
+                        <label for="showPassword">
+                            Show password
+                        </label>
+
+                    </div>
+
+
+                    <label for="memory">
+                        Memory Cost
+                    </label>
+
+                    <select id="memory">
+
+                        <option value="16384">
+                            16 MB
+                        </option>
+
+                        <option value="32768">
+                            32 MB
+                        </option>
+
+                        <option value="65536" selected>
+                            64 MB
+                        </option>
+
+                        <option value="131072">
+                            128 MB
+                        </option>
+
+                    </select>
+
+
+                    <label for="time">
+                        Time Cost
+                    </label>
+
+                    <select id="time">
+
+                        <option value="1">
+                            1
+                        </option>
+
+                        <option value="2">
+                            2
+                        </option>
+
+                        <option value="3" selected>
+                            3
+                        </option>
+
+                        <option value="4">
+                            4
+                        </option>
+
+                        <option value="5">
+                            5
+                        </option>
+
+                    </select>
+
+
+                    <label for="parallelism">
+                        Parallelism
+                    </label>
+
+                    <select id="parallelism">
+
+                        <option value="1" selected>
+                            1
+                        </option>
+
+                        <option value="2">
+                            2
+                        </option>
+
+                        <option value="3">
+                            3
+                        </option>
+
+                        <option value="4">
+                            4
+                        </option>
+
+                    </select>
+
+
+                    <button
+                        id="hashBtn"
+                        class="primary-btn"
+                    >
+                        Generate Argon2i Hash
+                    </button>
+
+                </div>
+
+
+                <!-- RESULT -->
+
+                <div class="result-panel">
+
+                    <h3>Hash Result</h3>
+
+
+                    <div
+                        id="hashStatus"
+                        class="status neutral"
+                    >
+                        Enter a password and generate a hash.
+                    </div>
+
+
+                    <label>
+                        Generated Argon2i Hash
+                    </label>
+
+                    <textarea
+                        id="hashOutput"
+                        readonly
+                        placeholder="The generated hash will appear here..."
+                    ></textarea>
+
+
+                    <div class="stats">
+
+                        <div class="stat">
+
+                            <span>
+                                Hashing Time
+                            </span>
+
+                            <strong id="hashTime">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat">
+
+                            <span>
+                                Memory Cost
+                            </span>
+
+                            <strong id="resultMemory">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat">
+
+                            <span>
+                                Time Cost
+                            </span>
+
+                            <strong id="resultTime">
+                                -
+                            </strong>
+
+                        </div>
+
+
+                        <div class="stat">
+
+                            <span>
+                                Parallelism
+                            </span>
+
+                            <strong id="resultParallelism">
+                                -
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= VERIFICATION ================= -->
+
+        <section class="card">
+
+            <div class="section-number">05</div>
+
+            <h2>Password Verification</h2>
+
+            <p class="description">
+                Verify whether an entered password matches the
+                generated Argon2i password hash.
+            </p>
+
+
+            <label for="verifyPassword">
+                Enter Password
+            </label>
+
+            <input
+                type="password"
+                id="verifyPassword"
+                placeholder="Enter password for verification"
+            >
+
+
+            <button
+                id="verifyBtn"
+                class="secondary-btn"
+            >
+                Verify Password
+            </button>
+
+
+            <div
+                id="verifyResult"
+                class="status neutral"
+            >
+                Generate an Argon2i hash first.
+            </div>
+
+        </section>
+
+
+        <!-- ================= ANALYSIS ================= -->
+
+        <section class="card" id="analysis">
+
+            <div class="section-number">06</div>
+
+            <h2>Parameter Analysis</h2>
+
+            <p class="description">
+
+                Change the Argon2i parameters and measure the
+                execution time. Repeat the experiment using
+                different configurations.
+
+            </p>
+
+
+            <div class="analysis-controls">
+
+
+                <div>
+
+                    <label for="analysisMemory">
+                        Memory Cost
+                    </label>
+
+                    <select id="analysisMemory">
+
+                        <option value="16384">
+                            16 MB
+                        </option>
+
+                        <option value="32768">
+                            32 MB
+                        </option>
+
+                        <option value="65536" selected>
+                            64 MB
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label for="analysisTime">
+                        Time Cost
+                    </label>
+
+                    <select id="analysisTime">
+
+                        <option value="1">
+                            1
+                        </option>
+
+                        <option value="2">
+                            2
+                        </option>
+
+                        <option value="3" selected>
+                            3
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label for="analysisParallelism">
+                        Parallelism
+                    </label>
+
+                    <select id="analysisParallelism">
+
+                        <option value="1" selected>
+                            1
+                        </option>
+
+                        <option value="2">
+                            2
+                        </option>
+
+                        <option value="3">
+                            3
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="benchmarkBtn"
+                class="primary-btn"
+            >
+                Run Benchmark
+            </button>
+
+
+            <div
+                id="benchmarkStatus"
+                class="status neutral"
+            >
+                No benchmark has been performed.
+            </div>
+
+
+            <!-- RESULTS TABLE -->
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+
+                            <th>
+                                Memory
+                            </th>
+
+                            <th>
+                                Time Cost
+                            </th>
+
+                            <th>
+                                Parallelism
+                            </th>
+
+                            <th>
+                                Execution Time
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="resultsTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <h3>Observation</h3>
+
+            <div
+                id="observations"
+                class="observation-box"
+            >
+                Run the benchmark to generate observations.
+            </div>
+
+        </section>
+
+
+        <!-- ================= ASSESSMENT ================= -->
+
+        <section class="card">
+
+            <div class="section-number">07</div>
+
+            <h2>Assessment / Learning Check</h2>
+
+
+            <div class="question-box">
+
+                <h3>Question 1</h3>
+
+                <p>
+                    What is the main purpose of Argon2i?
+                </p>
+
+                <p>
+                    <strong>Answer:</strong>
+                    Argon2i is a memory-hard password hashing
+                    algorithm designed to make password guessing
+                    computationally expensive.
+                </p>
+
+            </div>
+
+
+            <div class="question-box">
+
+                <h3>Question 2</h3>
+
+                <p>
+                    What happens when memory cost is increased?
+                </p>
+
+                <p>
+                    <strong>Answer:</strong>
+                    The hashing process requires more memory.
+                </p>
+
+            </div>
+
+
+            <div class="question-box">
+
+                <h3>Question 3</h3>
+
+                <p>
+                    What happens when time cost is increased?
+                </p>
+
+                <p>
+                    <strong>Answer:</strong>
+                    The computational work generally increases,
+                    resulting in longer execution time.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= QUIZ ================= -->
+
+        <section class="card" id="quiz">
+
+            <div class="section-number">08</div>
+
+            <h2>Assessment / Quiz</h2>
+
+
+            <form id="quizForm">
+
+
+                <!-- Q1 -->
+
+                <div class="quiz-question">
+
+                    <p>
+                        1. What is the primary purpose of Argon2i?
+                    </p>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q1"
+                            value="a"
+                        >
+                        File compression
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q1"
+                            value="b"
+                        >
+                        Password hashing
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q1"
+                            value="c"
+                        >
+                        Image processing
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q1"
+                            value="d"
+                        >
+                        Network routing
+                    </label>
+
+                </div>
+
+
+                <!-- Q2 -->
+
+                <div class="quiz-question">
+
+                    <p>
+                        2. Which Argon2 variant is used in this experiment?
+                    </p>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q2"
+                            value="a"
+                        >
+                        Argon2d
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q2"
+                            value="b"
+                        >
+                        Argon2i
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q2"
+                            value="c"
+                        >
+                        Argon2id
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q2"
+                            value="d"
+                        >
+                        Argon2x
+                    </label>
+
+                </div>
+
+
+                <!-- Q3 -->
+
+                <div class="quiz-question">
+
+                    <p>
+                        3. What does memory cost determine?
+                    </p>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q3"
+                            value="a"
+                        >
+                        Password length
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q3"
+                            value="b"
+                        >
+                        Amount of memory used
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q3"
+                            value="c"
+                        >
+                        Number of users
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q3"
+                            value="d"
+                        >
+                        Screen resolution
+                    </label>
+
+                </div>
+
+
+                <!-- Q4 -->
+
+                <div class="quiz-question">
+
+                    <p>
+                        4. What generally happens when time cost increases?
+                    </p>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q4"
+                            value="a"
+                        >
+                        Computational work increases
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q4"
+                            value="b"
+                        >
+                        Password becomes shorter
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q4"
+                            value="c"
+                        >
+                        Salt is removed
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q4"
+                            value="d"
+                        >
+                        Hashing stops
+                    </label>
+
+                </div>
+
+
+                <!-- Q5 -->
+
+                <div class="quiz-question">
+
+                    <p>
+                        5. What does parallelism control?
+                    </p>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q5"
+                            value="a"
+                        >
+                        Number of parallel lanes
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q5"
+                            value="b"
+                        >
+                        Password length
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q5"
+                            value="c"
+                        >
+                        Hash length
+                    </label>
+
+                    <label>
+                        <input
+                            type="radio"
+                            name="q5"
+                            value="d"
+                        >
+                        Salt length
+                    </label>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="quizBtn"
+                    class="primary-btn"
+                >
+                    Submit Quiz
+                </button>
+
+            </form>
+
+
+            <div
+                id="quizResult"
+                class="quiz-result"
+            ></div>
+
+        </section>
+
+
+        <!-- ================= REFERENCES ================= -->
+
+        <section class="card" id="references">
+
+            <div class="section-number">09</div>
+
+            <h2>References</h2>
+
+            <ol class="references">
+
+                <li>
+                    Biryukov, A., Dinu, D., Khovratovich, D.,
+                    and Josefsson, S. -
+                    Argon2 Memory-Hard Function for Password Hashing
+                    and Proof-of-Work Applications.
+                </li>
+
+                <li>
+                    Password Hashing Competition -
+                    Argon2.
+                </li>
+
+                <li>
+                    Argon2 Browser JavaScript implementation.
+                </li>
+
+                <li>
+                    RFC 9106 -
+                    Argon2 Memory-Hard Function for Password Hashing
+                    and Proof-of-Work Applications.
+                </li>
+
+            </ol>
+
+        </section>
+
+
+        <!-- ================= FEEDBACK ================= -->
+
+        <section class="card" id="feedback">
+
+            <div class="section-number">10</div>
+
+            <h2>Feedback</h2>
+
+            <p>
+                Please provide your feedback about the virtual
+                laboratory experiment.
+            </p>
+
+
+            <label>
+                Overall Experience
+            </label>
+
+
+            <div class="rating">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="5"
+                    >
+                    Very Good
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="4"
+                    >
+                    Good
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="3"
+                    >
+                    Average
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="2"
+                    >
+                    Poor
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="rating"
+                        value="1"
+                    >
+                    Very Poor
+                </label>
+
+            </div>
+
+
+            <label for="feedbackText">
+                Suggestions
+            </label>
+
+            <textarea
+                id="feedbackText"
+                placeholder="Enter your feedback or suggestions..."
+            ></textarea>
+
+
+            <button
+                id="feedbackBtn"
+                class="secondary-btn"
+            >
+                Submit Feedback
+            </button>
+
+
+            <div id="feedbackResult"></div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            Virtual Cryptography Laboratory
+        </p>
+
+        <p>
+            Experiment: Argon2i Password Hashing
+        </p>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
