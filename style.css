@@ -921,3 +921,156 @@ footer p {
     }
 
 }
+
+/* =====================================================
+   CUSTOM MEMORY COST DROPDOWN
+   ===================================================== */
+
+.custom-select {
+    position: relative;
+    width: 100%;
+}
+
+.select-trigger {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+    border: 1px solid #D8C7BE;
+    border-radius: 7px;
+
+    color: #3F302A;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.select-trigger:hover {
+    border-color: #AD806D;
+}
+
+.select-trigger:focus {
+    outline: 2px solid #AD806D;
+    outline-offset: 2px;
+}
+
+.select-arrow {
+    font-size: 11px;
+    transition: transform 0.2s ease;
+}
+
+.custom-select.open .select-arrow {
+    transform: rotate(180deg);
+}
+
+.select-options {
+    display: none;
+
+    position: absolute;
+    z-index: 1000;
+
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+
+    background: #ffffff;
+    border: 1px solid #D8C7BE;
+    border-radius: 8px;
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
+
+    overflow: hidden;
+}
+
+.custom-select.open .select-options {
+    display: block;
+}
+
+.select-option {
+    width: 100%;
+    padding: 12px 14px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    border: none;
+    border-bottom: 1px solid #EEE4DF;
+
+    background: #ffffff;
+
+    color: #3F302A;
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.select-option:last-child {
+    border-bottom: none;
+}
+
+.select-option strong {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.select-option span {
+    display: none;
+
+    margin-top: 6px;
+
+    font-size: 12px;
+    line-height: 1.45;
+    color: #75645C;
+}
+
+.select-option:hover span {
+    display: block;
+}
+
+.select-option:hover {
+    background: #FFF8F5;
+}
+
+.select-option.selected {
+    background: #F8EEE9;
+}
+
+.select-option.selected:hover {
+    background: #F3E6E0;
+}
+
+.hidden-select {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+    pointer-events: none;
+}
+/* =====================================================
+   TAB / PAGE NAVIGATION
+   ===================================================== */
+
+.tab-link {
+    cursor: pointer;
+}
+
+.tab-link.active {
+    font-weight: 700;
+}
+
+/* Hide all lab pages by default */
+main.container > section.card {
+    display: none;
+}
+
+/* Show only the active page */
+main.container > section.card.active-page {
+    display: block;
+}

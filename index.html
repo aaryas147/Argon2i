@@ -52,14 +52,37 @@
 
 <nav class="navbar">
 
-    <a href="#aim">Aim</a>
-    <a href="#theory">Theory</a>
-    <a href="#procedure">Procedure</a>
-    <a href="#experiment">Experiment</a>
-    <a href="#analysis">Analysis</a>
-    <a href="#quiz">Quiz</a>
-    <a href="#references">References</a>
-    <a href="#feedback">Feedback</a>
+    <a href="#aim" class="tab-link active" data-tab="aim">
+        Aim
+    </a>
+
+    <a href="#theory" class="tab-link" data-tab="theory">
+        Theory
+    </a>
+
+    <a href="#procedure" class="tab-link" data-tab="procedure">
+        Procedure
+    </a>
+
+    <a href="#experiment" class="tab-link" data-tab="experiment">
+        Experiment
+    </a>
+
+    <a href="#analysis" class="tab-link" data-tab="analysis">
+        Analysis
+    </a>
+
+    <a href="#quiz" class="tab-link" data-tab="quiz">
+        Quiz
+    </a>
+
+    <a href="#references" class="tab-link" data-tab="references">
+        References
+    </a>
+
+    <a href="#feedback" class="tab-link" data-tab="feedback">
+        Feedback
+    </a>
 
 </nav>
 
@@ -372,61 +395,187 @@
                     Memory Cost
                 </label>
 
-                <select id="memory">
+                <div class="custom-select" data-parameter="memory">
 
-                    <option value="16384">
-                        16 MB
-                    </option>
+    <button type="button" class="select-trigger">
+        <span class="selected-value">64 MB</span>
+        <span class="select-arrow">▼</span>
+    </button>
 
-                    <option value="32768">
-                        32 MB
-                    </option>
+    <div class="select-options">
 
-                    <option value="65536" selected>
-                        64 MB
-                    </option>
+        <button type="button" class="select-option" data-value="16384">
+            <strong>16 MB</strong>
+            <span>
+                Uses 16 MB of memory during hashing.
+                This requires fewer memory resources and provides a lower memory cost.
+            </span>
+        </button>
 
-                    <option value="131072">
-                        128 MB
-                    </option>
+        <button type="button" class="select-option" data-value="32768">
+            <strong>32 MB</strong>
+            <span>
+                Uses 32 MB of memory during hashing.
+                This increases the memory required for each hashing operation.
+            </span>
+        </button>
 
-                </select>
+        <button type="button" class="select-option selected" data-value="65536">
+            <strong>64 MB</strong>
+            <span>
+                Uses 64 MB of memory during hashing.
+                This provides a higher memory cost for password-guessing attempts.
+            </span>
+        </button>
+
+        <button type="button" class="select-option" data-value="131072">
+            <strong>128 MB</strong>
+            <span>
+                Uses 128 MB of memory during hashing.
+                This requires significantly more memory resources for each operation.
+            </span>
+        </button>
+
+    </div>
+
+    <select id="memory" class="hidden-select">
+
+        <option value="16384">16 MB</option>
+
+        <option value="32768">32 MB</option>
+
+        <option value="65536" selected>64 MB</option>
+
+        <option value="131072">128 MB</option>
+
+    </select>
+
+</div>
 
 
                 <label for="time">
                     Time Cost
                 </label>
 
-                <select id="time">
+                <div class="custom-select" data-parameter="time">
 
-                    <option value="1">1</option>
+    <button type="button" class="select-trigger">
+        <span class="selected-value">3</span>
+        <span class="select-arrow">▼</span>
+    </button>
 
-                    <option value="2">2</option>
+    <div class="select-options">
 
-                    <option value="3" selected>3</option>
+        <button type="button" class="select-option" data-value="1">
+            <strong>1</strong>
+            <span>
+                Performs fewer passes over memory, resulting in lower computational work and generally faster hashing.
+            </span>
+        </button>
 
-                    <option value="4">4</option>
+        <button type="button" class="select-option" data-value="2">
+            <strong>2</strong>
+            <span>
+                Performs two passes over memory, increasing the computational work compared with a lower time cost.
+            </span>
+        </button>
 
-                    <option value="5">5</option>
+        <button type="button" class="select-option selected" data-value="3">
+            <strong>3</strong>
+            <span>
+                Performs three passes over memory, providing a moderate level of computational work.
+            </span>
+        </button>
 
-                </select>
+        <button type="button" class="select-option" data-value="4">
+            <strong>4</strong>
+            <span>
+                Performs four passes over memory, increasing the computational work and generally increasing hashing time.
+            </span>
+        </button>
+
+        <button type="button" class="select-option" data-value="5">
+            <strong>5</strong>
+            <span>
+                Performs five passes over memory, requiring more computational work and generally more time to complete.
+            </span>
+        </button>
+
+    </div>
+
+    <select id="time" class="hidden-select">
+
+        <option value="1">1</option>
+
+        <option value="2">2</option>
+
+        <option value="3" selected>3</option>
+
+        <option value="4">4</option>
+
+        <option value="5">5</option>
+
+    </select>
+
+</div>
 
 
                 <label for="parallelism">
                     Parallelism
                 </label>
 
-                <select id="parallelism">
+                <div class="custom-select" data-parameter="parallelism">
 
-                    <option value="1" selected>1</option>
+    <button type="button" class="select-trigger">
+        <span class="selected-value">1</span>
+        <span class="select-arrow">▼</span>
+    </button>
 
-                    <option value="2">2</option>
+    <div class="select-options">
 
-                    <option value="3">3</option>
+        <button type="button" class="select-option selected" data-value="1">
+            <strong>1</strong>
+            <span>
+                Uses one parallel lane for the computation and requires fewer parallel resources.
+            </span>
+        </button>
 
-                    <option value="4">4</option>
+        <button type="button" class="select-option" data-value="2">
+            <strong>2</strong>
+            <span>
+                Uses two parallel lanes, allowing more of the computation to be performed in parallel.
+            </span>
+        </button>
 
-                </select>
+        <button type="button" class="select-option" data-value="3">
+            <strong>3</strong>
+            <span>
+                Uses three parallel lanes, allowing the computation to be divided across more parallel work.
+            </span>
+        </button>
+
+        <button type="button" class="select-option" data-value="4">
+            <strong>4</strong>
+            <span>
+                Uses four parallel lanes and can make greater use of available parallel processing resources.
+            </span>
+        </button>
+
+    </div>
+
+    <select id="parallelism" class="hidden-select">
+
+        <option value="1" selected>1</option>
+
+        <option value="2">2</option>
+
+        <option value="3">3</option>
+
+        <option value="4">4</option>
+
+    </select>
+
+</div>
 
 
                 <button
@@ -658,61 +807,155 @@
                     Memory Cost
                 </label>
 
-                <select id="analysisMemory">
+                <div class="custom-select" data-parameter="analysis-memory">
 
-                    <option value="16384">
-                        16 MB
-                    </option>
+    <button type="button" class="select-trigger">
+        <span class="selected-value">64 MB</span>
+        <span class="select-arrow">▼</span>
+    </button>
 
-                    <option value="32768">
-                        32 MB
-                    </option>
+    <div class="select-options">
 
-                    <option value="65536" selected>
-                        64 MB
-                    </option>
+        <button type="button" class="select-option" data-value="16384">
+            <strong>16 MB</strong>
+            <span>
+                Uses 16 MB of memory during hashing.
+                Requires fewer memory resources but provides a lower memory cost.
+            </span>
+        </button>
 
-                </select>
+        <button type="button" class="select-option" data-value="32768">
+            <strong>32 MB</strong>
+            <span>
+                Uses 32 MB of memory during hashing.
+                Increases the memory required for each hashing operation.
+            </span>
+        </button>
+
+        <button type="button" class="select-option selected" data-value="65536">
+            <strong>64 MB</strong>
+            <span>
+                Uses 64 MB of memory during hashing.
+                Makes memory-intensive password guessing more costly.
+            </span>
+        </button>
+
+    </div>
+
+    <select id="analysisMemory" class="hidden-select">
+
+        <option value="16384">16 MB</option>
+
+        <option value="32768">32 MB</option>
+
+        <option value="65536" selected>64 MB</option>
+
+    </select>
+
+</div>
 
             </div>
-
 
             <div>
+    <label for="analysisTime">Time Cost</label>
 
-                <label for="analysisTime">
-                    Time Cost
-                </label>
+    <div class="custom-select" data-parameter="analysis-time">
 
-                <select id="analysisTime">
+        <button type="button" class="select-trigger">
+            <span class="selected-value">3</span>
+            <span class="select-arrow">▼</span>
+        </button>
 
-                    <option value="1">1</option>
+        <div class="select-options">
 
-                    <option value="2">2</option>
+            <button type="button" class="select-option" data-value="1">
+                <strong>1</strong>
+                <span>
+                    Performs one pass over the allocated memory.
+                    Requires less computational work and is generally faster.
+                </span>
+            </button>
 
-                    <option value="3" selected>3</option>
+            <button type="button" class="select-option" data-value="2">
+                <strong>2</strong>
+                <span>
+                    Performs two passes over the allocated memory.
+                    Increases the computational work required for hashing.
+                </span>
+            </button>
 
-                </select>
+            <button type="button" class="select-option selected" data-value="3">
+                <strong>3</strong>
+                <span>
+                    Performs three passes over the allocated memory.
+                    Requires more computational work and makes repeated password attempts more costly.
+                </span>
+            </button>
 
-            </div>
+        </div>
 
+        <select id="analysisTime" class="hidden-select">
+
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+
+        </select>
+
+    </div>
+
+</div>
+           
 
             <div>
+    <label for="analysisParallelism">Parallelism</label>
 
-                <label for="analysisParallelism">
-                    Parallelism
-                </label>
+    <div class="custom-select" data-parameter="analysis-parallelism">
 
-                <select id="analysisParallelism">
+        <button type="button" class="select-trigger">
+            <span class="selected-value">1</span>
+            <span class="select-arrow">▼</span>
+        </button>
 
-                    <option value="1" selected>1</option>
+        <div class="select-options">
 
-                    <option value="2">2</option>
+            <button type="button" class="select-option selected" data-value="1">
+                <strong>1</strong>
+                <span>
+                    Uses one parallel lane during hashing.
+                    Requires fewer parallel processing resources.
+                </span>
+            </button>
 
-                    <option value="3">3</option>
+            <button type="button" class="select-option" data-value="2">
+                <strong>2</strong>
+                <span>
+                    Uses two parallel lanes during hashing.
+                    Allows more of the hashing work to be processed in parallel.
+                </span>
+            </button>
 
-                </select>
+            <button type="button" class="select-option" data-value="3">
+                <strong>3</strong>
+                <span>
+                    Uses three parallel lanes during hashing.
+                    Can make greater use of available parallel processing resources.
+                </span>
+            </button>
 
-            </div>
+        </div>
+
+        <select id="analysisParallelism" class="hidden-select">
+
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+
+        </select>
+
+    </div>
+
+</div>
 
         </div>
 

@@ -1226,3 +1226,175 @@ document
         });
 
     });
+
+ // =====================================================
+// CUSTOM PARAMETER DROPDOWNS
+// =====================================================
+
+document.querySelectorAll(".custom-select").forEach(function (dropdown) {
+
+    const trigger =
+        dropdown.querySelector(".select-trigger");
+
+    const options =
+        dropdown.querySelectorAll(".select-option");
+
+    const selectedValue =
+        dropdown.querySelector(".selected-value");
+
+    const nativeSelect =
+        dropdown.querySelector(".hidden-select");
+
+
+    // Open / close dropdown
+    trigger.addEventListener("click", function () {
+
+        // Close other dropdowns
+        document.querySelectorAll(".custom-select").forEach(function (other) {
+
+            if (other !== dropdown) {
+                other.classList.remove("open");
+            }
+
+        });
+
+        dropdown.classList.toggle("open");
+
+    });
+
+
+    // Select an option
+    options.forEach(function (option) {
+
+        option.addEventListener("click", function () {
+
+            const value = option.dataset.value;
+
+            const text =
+                option.querySelector("strong").textContent;
+
+
+            // Update displayed value
+            selectedValue.textContent = text;
+
+
+            // Update original hidden select
+            nativeSelect.value = value;
+
+
+            // Notify existing JavaScript
+            nativeSelect.dispatchEvent(
+                new Event("change", { bubbles: true })
+            );
+
+
+            // Update selected styling
+            options.forEach(function (item) {
+
+                item.classList.remove("selected");
+
+            });
+
+            option.classList.add("selected");
+
+
+            // Close dropdown
+            dropdown.classList.remove("open");
+
+        });
+
+    });
+
+});
+
+
+// Close dropdown when clicking outside
+document.addEventListener("click", function (event) {
+
+    if (!event.target.closest(".custom-select")) {
+
+        document
+            .querySelectorAll(".custom-select")
+            .forEach(function (dropdown) {
+
+                dropdown.classList.remove("open");
+
+            });
+
+    }
+
+});
+
+// =====================================================
+// TAB / PAGE NAVIGATION
+// =====================================================
+
+const tabLinks = document.querySelectorAll(".tab-link");
+const tabPages = document.querySelectorAll("main.container > section.card");
+
+function showTab(tabId) {
+
+    // Hide all pages
+    tabPages.forEach(function (page) {
+        page.classList.remove("active-page");
+    });
+
+    // Remove active state from all tabs
+    tabLinks.forEach(function (link) {
+        link.classList.remove("active");
+    });
+
+    // Show selected page
+    const selectedPage = document.getElementById(tabId);
+
+    if (selectedPage) {
+        selectedPage.classList.add("active-page");
+    }
+
+    // Highlight selected tab
+    const selectedLink =
+        document.querySelector(`.tab-link[data-tab="${tabId}"]`);
+
+    if (selectedLink) {
+        selectedLink.classList.add("active");
+    }
+
+    // Move page to the top
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+// Handle tab clicks
+tabLinks.forEach(function (link) {
+
+    link.addEventListener("click", function (event) {
+
+        event.preventDefault();
+
+        const tabId = link.dataset.tab;
+
+        showTab(tabId);
+
+        // Update URL hash
+        history.pushState(null, "", "#" + tabId);
+
+    });
+
+});
+
+
+// Show the correct page when the website loads
+const initialTab =
+    window.location.hash.substring(1);
+
+const validTab =
+    document.querySelector(`.tab-link[data-tab="${initialTab}"]`);
+
+if (validTab) {
+    showTab(initialTab);
+} else {
+    showTab("aim");
+}
