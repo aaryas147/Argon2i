@@ -4,6 +4,10 @@ An interactive, browser-based experiment on **Argon2i**, the data-independent va
 
 Students can generate Argon2i hashes, verify passwords, and measure how memory cost, time cost and parallelism change the hashing time. Everything runs locally in the browser, and no password is ever sent to a server.
 
+## Live demo
+
+Try the lab online at <https://argon2.lebronpereira.in>.
+
 ---
 
 ## Aim
