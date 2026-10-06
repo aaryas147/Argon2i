@@ -76,6 +76,10 @@
         Quiz
     </a>
 
+    <a href="#testcases" class="tab-link" data-tab="testcases">
+        Test Cases
+    </a>
+
     <a href="#references" class="tab-link" data-tab="references">
         References
     </a>
@@ -743,7 +747,7 @@
 
     <!-- ================= VERIFICATION ================= -->
 
-    <section class="card">
+    <section class="card" id="verification">
 
         <div class="section-number">05</div>
 
@@ -1023,236 +1027,519 @@
 
         <div class="section-number">07</div>
 
-        <h2>Test Cases</h2>
+        <h2>Interactive Verification Suite &amp; Test Cases</h2>
 
         <p class="description">
-            Test cases executed against the experiment to verify
-            that hashing, verification, parameter analysis and
-            the quiz behave as expected.
+            Digitally executable test suite for Argon2i, Argon2d, and Argon2id. Run tests in-situ to observe live assertion execution, evaluate security &amp; memory boundaries, or click <strong>Load in Lab</strong> to transfer any test scenario directly into the experiment workbench.
         </p>
 
+        <div class="tc-dashboard">
 
-        <div class="table-wrapper">
+            <!-- Control Bar -->
+            <div class="tc-control-bar">
+                <div class="tc-btn-group">
+                    <button type="button" id="tcRunAllBtn" class="tc-master-btn">
+                        Run All 12 Test Cases
+                    </button>
+                    <button type="button" id="tcResetBtn" class="tc-reset-btn">
+                        Reset Suite
+                    </button>
+                </div>
 
-            <table>
+                <div class="tc-filters" role="group" aria-label="Filter test cases">
+                    <button type="button" class="tc-filter-pill active" data-filter="all">All (12)</button>
+                    <button type="button" class="tc-filter-pill" data-filter="val">Validation (2)</button>
+                    <button type="button" class="tc-filter-pill" data-filter="sec">Security &amp; Hashes (3)</button>
+                    <button type="button" class="tc-filter-pill" data-filter="ver">Verification (3)</button>
+                    <button type="button" class="tc-filter-pill" data-filter="par">Parameters (1)</button>
+                    <button type="button" class="tc-filter-pill" data-filter="quiz">Quiz (3)</button>
+                </div>
+            </div>
 
-                <thead>
+            <!-- Summary & Metric Dashboard -->
+            <div class="tc-summary-box">
+                <div class="tc-summary-header">
+                    <div class="tc-summary-title">Suite Execution Summary</div>
+                    <div class="tc-metric-chips">
+                        <span class="tc-metric-chip" id="tcChipTotal">Total: <span class="num">12</span></span>
+                        <span class="tc-metric-chip pass" id="tcChipPass">Passed: <span class="num">0</span></span>
+                        <span class="tc-metric-chip fail" id="tcChipFail">Failed: <span class="num">0</span></span>
+                        <span class="tc-metric-chip" id="tcChipPending">Pending: <span class="num">12</span></span>
+                    </div>
+                </div>
 
-                    <tr>
+                <div class="tc-progress-container">
+                    <div id="tcProgressFill" class="tc-progress-fill" style="width: 0%;"></div>
+                </div>
 
-                        <th>TC ID</th>
+                <div style="font-size: 12.5px; color: #6B554B; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                    <span id="tcStatusMessage">Suite ready. Click "Run All 12 Test Cases" or test individually below.</span>
+                    <span id="tcDurationLabel" style="font-family: monospace;">Duration: -</span>
+                </div>
+            </div>
 
-                        <th>Test Scenario</th>
+            <!-- Interactive Table -->
+            <div class="table-wrapper">
+                <table class="tc-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 90px;">TC ID</th>
+                            <th style="width: 24%;">Test Scenario</th>
+                            <th style="width: 24%;">Expected Result</th>
+                            <th style="width: 26%;">Live Assertion Result</th>
+                            <th style="width: 110px;">Status</th>
+                            <th style="width: 130px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tcTableBody">
 
-                        <th>Expected Result</th>
+                        <!-- TC01 -->
+                        <tr id="tc-row-tc01" data-category="val">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC01</span>
+                                    <span class="tc-badge val">VAL</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Empty Password Guard</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Click <em>Generate All Argon2 Hashes</em> with an empty password.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    Validation error prompts user to enter a password; execution halts and no hashes are computed.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc01" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc01" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc01">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc01">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc01">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc01">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                        <th>Actual Result</th>
+                        <!-- TC02 -->
+                        <tr id="tc-row-tc02" data-category="sec">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC02</span>
+                                    <span class="tc-badge sec">SEC</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Triple-Variant Generation</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Enter valid password and compute Argon2i, Argon2d &amp; Argon2id at 64 MB, t=3, p=1.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    All three encoded hashes generated via WebAssembly with positive elapsed execution times (&gt;0 ms).
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc02" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc02" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc02">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc02">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc02">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc02">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                        <th>Status</th>
+                        <!-- TC03 -->
+                        <tr id="tc-row-tc03" data-category="val">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC03</span>
+                                    <span class="tc-badge val">VAL</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Password Visibility Toggle</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Toggle the <em>Show password</em> checkbox.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    Input field type toggles dynamically between <code>password</code> and <code>text</code>.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc03" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc03" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc03">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc03">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc03">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc03">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                    </tr>
+                        <!-- TC04 -->
+                        <tr id="tc-row-tc04" data-category="ver">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC04</span>
+                                    <span class="tc-badge ver">VER</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Matching Password Verification</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Verify authentic entered password against stored Argon2i hash.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    Verification succeeds with <code>✓ Password Verified</code> success confirmation.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc04" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc04" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc04">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc04">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc04">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc04">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                </thead>
+                        <!-- TC05 -->
+                        <tr id="tc-row-tc05" data-category="ver">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC05</span>
+                                    <span class="tc-badge ver">VER</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Mismatched Password Rejection</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Verify an incorrect password against stored Argon2i hash.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    Verification rejects mismatch securely with <code>✗ Verification Failed</code>; stored hash remains intact.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc05" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc05" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc05">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc05">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc05">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc05">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
+                        <!-- TC06 -->
+                        <tr id="tc-row-tc06" data-category="ver">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC06</span>
+                                    <span class="tc-badge ver">VER</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Pre-Hash Guard Integrity</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Attempt password verification before any hash has been generated.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    Error message prompts user to generate hash first; uninitialized state safely guarded.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc06" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc06" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc06">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc06">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc06">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc06">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                <tbody>
+                        <!-- TC07 -->
+                        <tr id="tc-row-tc07" data-category="sec">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC07</span>
+                                    <span class="tc-badge sec">SEC</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Memory Hardness Scaling</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Increase memory cost from 64 MB (65,536 KiB) to 128 MB (131,072 KiB) with fixed t=1, p=1.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    RAM requirement doubles; hash successfully generated with memory hardness scaling recorded.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc07" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc07" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc07">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc07">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc07">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc07">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>TC01</td>
-                        <td>
-                            Click <strong>Generate All Argon2 Hashes</strong>
-                            with an empty password.
-                        </td>
-                        <td>
-                            Error message asking to enter a password;
-                            no hashes are generated.
-                        </td>
-                        <td>
-                            Error message shown; hash outputs unchanged.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
+                        <!-- TC08 -->
+                        <tr id="tc-row-tc08" data-category="sec">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC08</span>
+                                    <span class="tc-badge sec">SEC</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Time Cost Pass Scaling</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Compare execution time across iteration passes (t=1 vs t=3 passes).
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    Hashing execution time scales upward as computational pass count increases.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc08" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc08" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc08">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc08">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc08">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc08">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
+                        <!-- TC09 -->
+                        <tr id="tc-row-tc09" data-category="par">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC09</span>
+                                    <span class="tc-badge par">PAR</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Benchmark Telemetry &amp; Table</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Run parameter benchmark trial and append row to analysis table.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    New row with trial number, memory in MB, time passes, parallelism, and timing appended to results table.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc09" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc09" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc09">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc09">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc09">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc09">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>TC02</td>
-                        <td>
-                            Enter a valid password and generate all
-                            hashes using the default parameters
-                            (64 MB, t = 3, p = 1).
-                        </td>
-                        <td>
-                            Argon2i, Argon2d and Argon2id hashes
-                            are displayed with execution times.
-                        </td>
-                        <td>
-                            All three encoded hashes and timings displayed.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
+                        <!-- TC10 -->
+                        <tr id="tc-row-tc10" data-category="quiz">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC10</span>
+                                    <span class="tc-badge quiz">QUIZ</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Empty Quiz Submission Guard</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Submit assessment with no answers selected.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    10 warning badges displayed for unselected questions; score evaluates to 0/10.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc10" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc10" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc10">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc10">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc10">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc10">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
+                        <!-- TC11 -->
+                        <tr id="tc-row-tc11" data-category="quiz">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC11</span>
+                                    <span class="tc-badge quiz">QUIZ</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Perfect Quiz Score Evaluation</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Submit quiz with all 10 correct cryptographic answers.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    All 10 questions validated correct; final score evaluates to 10/10 (100%) with "Excellent!" banner.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc11" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc11" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc11">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc11">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc11">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc11">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-                    <tr>
-                        <td>TC03</td>
-                        <td>
-                            Tick the <strong>Show password</strong>
-                            checkbox.
-                        </td>
-                        <td>
-                            Password field switches between hidden
-                            and plain-text input.
-                        </td>
-                        <td>
-                            Input type toggles as expected.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
+                        <!-- TC12 -->
+                        <tr id="tc-row-tc12" data-category="quiz">
+                            <td>
+                                <div class="tc-id-wrapper">
+                                    <span class="tc-id-text">TC12</span>
+                                    <span class="tc-badge quiz">QUIZ</span>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>Assessment Reset &amp; Slate Clearing</strong>
+                                <p style="margin: 4px 0 0; font-size: 12.5px; color: #5A4035;">
+                                    Click <em>Retake Quiz</em> button after an evaluation.
+                                </p>
+                            </td>
+                            <td>
+                                <span style="font-size: 12.5px; color: #3F332E;">
+                                    All selected radio inputs unchecked, all feedback alerts removed, score banner cleared.
+                                </span>
+                            </td>
+                            <td>
+                                <div id="tc-result-tc12" style="font-size: 12.5px; color: #6B554B;">
+                                    Pending execution.
+                                </div>
+                                <div class="tc-trace-drawer" id="tc-trace-tc12" hidden></div>
+                            </td>
+                            <td>
+                                <span class="tc-status-pill pending" id="tc-status-tc12">● Pending</span>
+                            </td>
+                            <td>
+                                <div class="tc-actions">
+                                    <button type="button" class="tc-action-btn tc-run-btn" data-run="tc12">Run Test</button>
+                                    <button type="button" class="tc-action-btn tc-load-btn" data-load="tc12">Load in Lab</button>
+                                    <button type="button" class="tc-action-btn tc-trace-btn" data-trace="tc12">Trace</button>
+                                </div>
+                            </td>
+                        </tr>
 
-
-                    <tr>
-                        <td>TC04</td>
-                        <td>
-                            Verify with the original password after
-                            generating the hashes.
-                        </td>
-                        <td>
-                            Verification succeeds with a success message.
-                        </td>
-                        <td>
-                            Success message shown.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC05</td>
-                        <td>
-                            Verify with a different password.
-                        </td>
-                        <td>
-                            Verification fails with a failure message.
-                        </td>
-                        <td>
-                            Failure message shown; stored hash unchanged.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC06</td>
-                        <td>
-                            Verify before any hash has been generated.
-                        </td>
-                        <td>
-                            Error message asking to generate a hash first.
-                        </td>
-                        <td>
-                            Error message shown.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC07</td>
-                        <td>
-                            Increase memory cost from 64 MB to 128 MB
-                            while other parameters remain fixed.
-                        </td>
-                        <td>
-                            Hashing time generally increases as more
-                            memory is used.
-                        </td>
-                        <td>
-                            Timing trend confirmed across repeated runs.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC08</td>
-                        <td>
-                            Increase time cost from 3 to 5.
-                        </td>
-                        <td>
-                            Hashing time generally increases.
-                        </td>
-                        <td>
-                            Times increase with higher pass values.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC09</td>
-                        <td>
-                            Run the benchmark with any configuration.
-                        </td>
-                        <td>
-                            A row with parameters and execution time
-                            is added to the results table.
-                        </td>
-                        <td>
-                            Row appended with correct parameter
-                            and timing values.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC10</td>
-                        <td>
-                            Submit the quiz with no answers selected.
-                        </td>
-                        <td>
-                            Warning appears under each question and
-                            score is 0/10.
-                        </td>
-                        <td>
-                            Warnings shown; score 0/10.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC11</td>
-                        <td>
-                            Submit the quiz with all answers correct.
-                        </td>
-                        <td>
-                            Score is 10/10.
-                        </td>
-                        <td>
-                            Score 10/10 shown.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-
-                    <tr>
-                        <td>TC12</td>
-                        <td>
-                            Click the Retake Quiz button.
-                        </td>
-                        <td>
-                            All selections, feedback and result box
-                            are cleared.
-                        </td>
-                        <td>
-                            All cleared as expected.
-                        </td>
-                        <td><strong>Pass</strong></td>
-                    </tr>
-
-                </tbody>
-
-            </table>
+                    </tbody>
+                </table>
+            </div>
 
         </div>
 
