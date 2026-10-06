@@ -1,23 +1,23 @@
 /*
 =========================================================
-ARGON2i PASSWORD HASHING - VIRTUAL CRYPTOGRAPHY LAB
+ARGON2 PASSWORD HASHING - VIRTUAL CRYPTOGRAPHY LAB
 =========================================================
 
-Experiment:
-Implementation of Argon2i password hashing and verification
-and analysis of memory cost, time cost and parallelism.
+Main experiment generates:
 
-The Argon2 browser library is loaded in index.html.
-
-IMPORTANT:
-Main experiment uses:
-
-    argon2.ArgonType.Argon2i
-
-Variant simulation provides:
-
+    Argon2i
     Argon2d
     Argon2id
+
+All three use:
+
+    Same password
+    Same random salt
+    Same memory cost
+    Same time cost
+    Same parallelism
+
+Password verification uses the generated Argon2i hash.
 */
 
 
@@ -101,7 +101,7 @@ document
 
 
 // ======================================================
-// GENERATE ARGON2i HASH
+// GENERATE ALL ARGON2 HASHES
 // ======================================================
 
 document
@@ -153,30 +153,22 @@ document
         button.disabled = true;
 
         button.textContent =
-            "Generating Argon2i Hash...";
+            "Generating All Hashes...";
 
 
         setStatus(
             status,
-            "Argon2i is processing the password...",
+            "Generating Argon2i, Argon2d and Argon2id hashes...",
             "neutral"
         );
-
-
-        // ------------------------------
-        // START TIMER
-        // ------------------------------
-
-        const startTime =
-            performance.now();
 
 
         try {
 
 
-            // --------------------------------------
-            // GENERATE RANDOM SALT
-            // --------------------------------------
+            // ==================================================
+            // SAME RANDOM SALT FOR ALL THREE VARIANTS
+            // ==================================================
 
             const salt =
                 crypto.getRandomValues(
@@ -184,11 +176,15 @@ document
                 );
 
 
-            // --------------------------------------
-            // ARGON2i HASH
-            // --------------------------------------
+            // ==================================================
+            // ARGON2i
+            // ==================================================
 
-            const result =
+            let startTime =
+                performance.now();
+
+
+            const argon2iResult =
                 await argon2.hash({
 
                     pass: password,
@@ -204,60 +200,155 @@ document
 
                     hashLen: 32,
 
-                    /*
-                    IMPORTANT:
-                    This explicitly selects Argon2i.
-                    */
-
                     type:
                         argon2.ArgonType.Argon2i
 
                 });
 
 
-            // ------------------------------
-            // END TIMER
-            // ------------------------------
-
-            const endTime =
+            let endTime =
                 performance.now();
 
 
-            const elapsed =
+            const argon2iElapsed =
                 endTime - startTime;
 
 
-            // ------------------------------
-            // STORE HASH
-            // ------------------------------
+            // ==================================================
+            // ARGON2d
+            // ==================================================
+
+            startTime =
+                performance.now();
+
+
+            const argon2dResult =
+                await argon2.hash({
+
+                    pass: password,
+
+                    salt: salt,
+
+                    time: params.time,
+
+                    mem: params.memory,
+
+                    parallelism:
+                        params.parallelism,
+
+                    hashLen: 32,
+
+                    type:
+                        argon2.ArgonType.Argon2d
+
+                });
+
+
+            endTime =
+                performance.now();
+
+
+            const argon2dElapsed =
+                endTime - startTime;
+
+
+            // ==================================================
+            // ARGON2id
+            // ==================================================
+
+            startTime =
+                performance.now();
+
+
+            const argon2idResult =
+                await argon2.hash({
+
+                    pass: password,
+
+                    salt: salt,
+
+                    time: params.time,
+
+                    mem: params.memory,
+
+                    parallelism:
+                        params.parallelism,
+
+                    hashLen: 32,
+
+                    type:
+                        argon2.ArgonType.Argon2id
+
+                });
+
+
+            endTime =
+                performance.now();
+
+
+            const argon2idElapsed =
+                endTime - startTime;
+
+
+            // ==================================================
+            // STORE ARGON2i HASH FOR VERIFICATION
+            // ==================================================
 
             generatedHash =
-                result.encoded;
+                argon2iResult.encoded;
 
 
-            // ------------------------------
-            // DISPLAY HASH
-            // ------------------------------
+            // ==================================================
+            // DISPLAY ARGON2i
+            // ==================================================
 
             document
-                .getElementById("hashOutput")
+                .getElementById("argon2iOutput")
                 .value =
-                result.encoded;
+                argon2iResult.encoded;
 
-
-            // ------------------------------
-            // DISPLAY TIME
-            // ------------------------------
 
             document
-                .getElementById("hashTime")
+                .getElementById("argon2iTime")
                 .textContent =
-                elapsed.toFixed(2) + " ms";
+                argon2iElapsed.toFixed(2) + " ms";
 
 
-            // ------------------------------
+            // ==================================================
+            // DISPLAY ARGON2d
+            // ==================================================
+
+            document
+                .getElementById("argon2dOutput")
+                .value =
+                argon2dResult.encoded;
+
+
+            document
+                .getElementById("argon2dTime")
+                .textContent =
+                argon2dElapsed.toFixed(2) + " ms";
+
+
+            // ==================================================
+            // DISPLAY ARGON2id
+            // ==================================================
+
+            document
+                .getElementById("argon2idOutput")
+                .value =
+                argon2idResult.encoded;
+
+
+            document
+                .getElementById("argon2idTime")
+                .textContent =
+                argon2idElapsed.toFixed(2) + " ms";
+
+
+            // ==================================================
             // DISPLAY PARAMETERS
-            // ------------------------------
+            // ==================================================
 
             document
                 .getElementById("resultMemory")
@@ -279,13 +370,13 @@ document
                 params.parallelism;
 
 
-            // ------------------------------
+            // ==================================================
             // SUCCESS
-            // ------------------------------
+            // ==================================================
 
             setStatus(
                 status,
-                "✓ Argon2i hash generated successfully.",
+                "✓ Argon2i, Argon2d and Argon2id hashes generated successfully.",
                 "success"
             );
 
@@ -294,14 +385,14 @@ document
 
 
             console.error(
-                "Argon2i error:",
+                "Argon2 error:",
                 error
             );
 
 
             setStatus(
                 status,
-                "Error while generating Argon2i hash: " +
+                "Error while generating Argon2 hashes: " +
                 error.message,
                 "error"
             );
@@ -316,7 +407,7 @@ document
         button.disabled = false;
 
         button.textContent =
-            "Generate Argon2i Hash";
+            "Generate All Argon2 Hashes";
 
     });
 
@@ -337,13 +428,11 @@ document
 
 
         const resultBox =
-            document
-                .getElementById("verifyResult");
+            document.getElementById("verifyResult");
 
 
         const button =
-            document
-                .getElementById("verifyBtn");
+            document.getElementById("verifyBtn");
 
 
         // ------------------------------
@@ -354,7 +443,7 @@ document
 
             setStatus(
                 resultBox,
-                "Generate an Argon2i hash before verification.",
+                "Generate the Argon2 hashes before verification.",
                 "error"
             );
 
@@ -396,10 +485,6 @@ document
         try {
 
 
-            // --------------------------------------
-            // VERIFY ARGON2i HASH
-            // --------------------------------------
-
             await argon2.verify({
 
                 pass: password,
@@ -408,10 +493,6 @@ document
 
             });
 
-
-            // --------------------------------------
-            // SUCCESS
-            // --------------------------------------
 
             setStatus(
                 resultBox,
@@ -422,10 +503,6 @@ document
 
         } catch (error) {
 
-
-            // --------------------------------------
-            // FAILURE
-            // --------------------------------------
 
             setStatus(
                 resultBox,
@@ -728,7 +805,7 @@ document
                 "Correct. A different random salt normally produces a different Argon2i hash even when the password is the same.",
 
             q2:
-                "Correct. Increasing memory cost increases the amount of memory required during the Argon2i computation.",
+                "Correct. Increasing memory cost increases the amount of memory required during the Argon2 computation.",
 
             q3:
                 "Correct. An incorrect password should fail verification against the stored Argon2i hash.",
@@ -737,19 +814,19 @@ document
                 "Correct. m=65536 means 65536 KiB of memory, t=3 is the time cost, and p=2 is the parallelism.",
 
             q5:
-                "Correct. Increasing the time cost parameter increases the computational work performed by Argon2i.",
+                "Correct. Increasing the time cost parameter increases the computational work performed by Argon2.",
 
             q6:
-                "Correct. Argon2i is the variant with data-independent memory access, designed with side-channel resistance in mind.",
+                "Correct. Argon2i uses data-independent memory access and is designed with side-channel resistance in mind.",
 
             q7:
-                "Correct. A random salt ensures the same password produces different hashes, defeating precomputed (rainbow) tables.",
+                "Correct. A random salt ensures the same password produces different hashes, making precomputed tables less useful.",
 
             q8:
                 "Correct. Hashing is one-way; verification re-hashes the entered password with the stored salt and parameters and compares.",
 
             q9:
-                "Correct. Parallelism splits the work into lanes, which can reduce execution time on multi-core systems without changing the hash length.",
+                "Correct. Parallelism splits the work into lanes, which can reduce execution time on multi-core systems.",
 
             q10:
                 "Correct. The entered password is hashed with the salt and parameters embedded in the encoded hash, then compared with the stored hash."
@@ -762,10 +839,6 @@ document
         const total = 10;
 
 
-        // ----------------------------------------
-        // REMOVE PREVIOUS FEEDBACK
-        // ----------------------------------------
-
         document
             .querySelectorAll(".quiz-feedback")
             .forEach(function (element) {
@@ -774,10 +847,6 @@ document
 
             });
 
-
-        // ----------------------------------------
-        // RESET QUESTION STYLES
-        // ----------------------------------------
 
         document
             .querySelectorAll(".quiz-question")
@@ -791,10 +860,6 @@ document
 
             });
 
-
-        // ----------------------------------------
-        // CHECK EVERY QUESTION
-        // ----------------------------------------
 
         for (const question in answers) {
 
@@ -821,12 +886,7 @@ document
                 "quiz-feedback";
 
 
-            // ----------------------------------------
-            // NO ANSWER
-            // ----------------------------------------
-
             if (!selected) {
-
 
                 feedback.innerHTML = `
                     <strong>⚠ No answer selected.</strong><br>
@@ -857,10 +917,6 @@ document
 
             }
 
-
-            // ----------------------------------------
-            // CORRECT ANSWER
-            // ----------------------------------------
 
             if (
                 selected.value ===
@@ -895,10 +951,6 @@ document
 
             }
 
-
-            // ----------------------------------------
-            // INCORRECT ANSWER
-            // ----------------------------------------
 
             else {
 
@@ -956,10 +1008,6 @@ document
         }
 
 
-        // ----------------------------------------
-        // CALCULATE SCORE
-        // ----------------------------------------
-
         const percentage =
             Math.round(
                 (score / total) * 100
@@ -972,10 +1020,6 @@ document
             );
 
 
-        // ----------------------------------------
-        // DISPLAY RESULT
-        // ----------------------------------------
-
         if (score === total) {
 
 
@@ -986,7 +1030,7 @@ document
                 <br><br>
                 All answers are correct.
                 You have demonstrated
-                a strong understanding of Argon2i.
+                a strong understanding of Argon2.
             `;
 
 
@@ -1011,7 +1055,7 @@ document
                 (${percentage}%)
                 <br><br>
                 Review the questions marked incorrect
-                and revisit the Argon2i theory section.
+                and revisit the Argon2 theory section.
             `;
 
 
@@ -1035,7 +1079,7 @@ document
                 Your Score: ${score}/${total}
                 (${percentage}%)
                 <br><br>
-                Review the Argon2i concepts, parameters,
+                Review the Argon2 concepts, parameters,
                 salt generation, and verification procedure
                 before attempting the quiz again.
             `;
@@ -1052,10 +1096,6 @@ document
 
         }
 
-
-        // ----------------------------------------
-        // SCROLL TO RESULT
-        // ----------------------------------------
 
         result.scrollIntoView({
 
@@ -1077,8 +1117,6 @@ document
     .addEventListener("click", function () {
 
 
-        // Clear all quiz radio selections
-
         document
             .querySelectorAll(
                 '.quiz-question input[type="radio"]'
@@ -1090,8 +1128,6 @@ document
             });
 
 
-        // Remove feedback boxes
-
         document
             .querySelectorAll(".quiz-feedback")
             .forEach(function (el) {
@@ -1100,8 +1136,6 @@ document
 
             });
 
-
-        // Restore default question styling
 
         document
             .querySelectorAll(".quiz-question")
@@ -1115,8 +1149,6 @@ document
 
             });
 
-
-        // Clear result box
 
         const result =
             document.getElementById(
@@ -1164,14 +1196,11 @@ document
 
         if (!selected) {
 
-
             result.textContent =
                 "Please select a rating.";
 
-
             result.style.color =
                 "#b91c1c";
-
 
             return;
 
@@ -1197,423 +1226,3 @@ document
         });
 
     });
-
-
-// ======================================================
-// ARGON2 VARIANT SIMULATION
-// ======================================================
-
-const variantDescriptions = {
-
-    argon2d: {
-
-        name: "Argon2d",
-
-        description:
-            "Argon2d uses data-dependent memory access. " +
-            "It is designed to provide strong resistance " +
-            "against certain brute-force and GPU-based attacks."
-
-    },
-
-
-    argon2id: {
-
-        name: "Argon2id",
-
-        description:
-            "Argon2id combines characteristics of Argon2i " +
-            "and Argon2d, using a hybrid memory-access strategy."
-
-    }
-
-};
-
-
-// ======================================================
-// VARIANT SELECTOR
-// ======================================================
-
-const variantSelect =
-    document.getElementById(
-        "variantSelect"
-    );
-
-
-const variantInfo =
-    document.getElementById(
-        "variantInfo"
-    );
-
-
-variantSelect.addEventListener(
-    "change",
-    function () {
-
-
-        const variant =
-            this.value;
-
-
-        const info =
-            variantDescriptions[variant];
-
-
-        if (!info) {
-
-            variantInfo.innerHTML = `
-
-                <h3>Select an Argon2 variant</h3>
-
-                <p>
-                    Select Argon2d or Argon2id
-                    from the dropdown to view
-                    its characteristics.
-                </p>
-
-            `;
-
-            return;
-
-        }
-
-
-        variantInfo.innerHTML = `
-
-            <h3>${info.name}</h3>
-
-            <p>
-                ${info.description}
-            </p>
-
-        `;
-
-    }
-);
-
-
-// ======================================================
-// VARIANT HASH SIMULATION
-// ======================================================
-
-document
-    .getElementById("variantHashBtn")
-    .addEventListener(
-        "click",
-        async function () {
-
-
-            const password =
-                document
-                    .getElementById(
-                        "variantPassword"
-                    )
-                    .value;
-
-
-            const variant =
-                document
-                    .getElementById(
-                        "variantSelect"
-                    )
-                    .value;
-
-
-            const memory =
-                Number(
-                    document
-                        .getElementById(
-                            "variantMemory"
-                        )
-                        .value
-                );
-
-
-            const time =
-                Number(
-                    document
-                        .getElementById(
-                            "variantTime"
-                        )
-                        .value
-                );
-
-
-            const parallelism =
-                Number(
-                    document
-                        .getElementById(
-                            "variantParallelism"
-                        )
-                        .value
-                );
-
-
-            const status =
-                document
-                    .getElementById(
-                        "variantStatus"
-                    );
-
-
-            const button =
-                document
-                    .getElementById(
-                        "variantHashBtn"
-                    );
-
-
-            // ------------------------------------------
-            // VALIDATE PASSWORD
-            // ------------------------------------------
-
-            if (!password) {
-
-                setStatus(
-                    status,
-                    "Please enter a password first.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            // ------------------------------------------
-            // SELECT ARGON2 TYPE
-            // ------------------------------------------
-
-            let argonType;
-
-
-            if (variant === "argon2d") {
-
-                argonType =
-                    argon2.ArgonType.Argon2d;
-
-            }
-
-
-            else if (variant === "argon2id") {
-
-                argonType =
-                    argon2.ArgonType.Argon2id;
-
-            }
-
-
-            else {
-
-                setStatus(
-                    status,
-                    "Please select a valid Argon2 variant.",
-                    "error"
-                );
-
-                return;
-
-            }
-
-
-            // ------------------------------------------
-            // BUTTON STATE
-            // ------------------------------------------
-
-            button.disabled = true;
-
-            button.textContent =
-                "Running Simulation...";
-
-
-            setStatus(
-                status,
-                `Running ${variantDescriptions[variant].name} simulation...`,
-                "neutral"
-            );
-
-
-            // ------------------------------------------
-            // START TIMER
-            // ------------------------------------------
-
-            const startTime =
-                performance.now();
-
-
-            try {
-
-
-                // --------------------------------------
-                // GENERATE SALT
-                // --------------------------------------
-
-                const salt =
-                    crypto.getRandomValues(
-                        new Uint8Array(16)
-                    );
-
-
-                // --------------------------------------
-                // RUN ARGON2 VARIANT
-                // --------------------------------------
-
-                const result =
-                    await argon2.hash({
-
-                        pass:
-                            password,
-
-                        salt:
-                            salt,
-
-                        time:
-                            time,
-
-                        mem:
-                            memory,
-
-                        parallelism:
-                            parallelism,
-
-                        hashLen:
-                            32,
-
-                        type:
-                            argonType
-
-                    });
-
-
-                // --------------------------------------
-                // END TIMER
-                // --------------------------------------
-
-                const endTime =
-                    performance.now();
-
-
-                const elapsed =
-                    endTime - startTime;
-
-
-                // --------------------------------------
-                // DISPLAY HASH
-                // --------------------------------------
-
-                document
-                    .getElementById(
-                        "variantHashOutput"
-                    )
-                    .value =
-                    result.encoded;
-
-
-                // --------------------------------------
-                // DISPLAY VARIANT
-                // --------------------------------------
-
-                document
-                    .getElementById(
-                        "variantResultName"
-                    )
-                    .textContent =
-                    variantDescriptions[
-                        variant
-                    ].name;
-
-
-                // --------------------------------------
-                // DISPLAY TIME
-                // --------------------------------------
-
-                document
-                    .getElementById(
-                        "variantHashTime"
-                    )
-                    .textContent =
-                    elapsed.toFixed(2) +
-                    " ms";
-
-
-                // --------------------------------------
-                // DISPLAY MEMORY
-                // --------------------------------------
-
-                document
-                    .getElementById(
-                        "variantResultMemory"
-                    )
-                    .textContent =
-                    getMemoryInMB(memory) +
-                    " MB";
-
-
-                // --------------------------------------
-                // DISPLAY TIME COST
-                // --------------------------------------
-
-                document
-                    .getElementById(
-                        "variantResultTime"
-                    )
-                    .textContent =
-                    time;
-
-
-                // --------------------------------------
-                // DISPLAY PARALLELISM
-                // --------------------------------------
-
-                document
-                    .getElementById(
-                        "variantResultParallelism"
-                    )
-                    .textContent =
-                    parallelism;
-
-
-                // --------------------------------------
-                // SUCCESS
-                // --------------------------------------
-
-                setStatus(
-                    status,
-                    `✓ ${variantDescriptions[variant].name} simulation completed successfully.`,
-                    "success"
-                );
-
-
-            }
-
-
-            catch (error) {
-
-
-                console.error(
-                    "Variant simulation error:",
-                    error
-                );
-
-
-                setStatus(
-                    status,
-                    "Error while running variant simulation: " +
-                    error.message,
-                    "error"
-                );
-
-            }
-
-
-            // ------------------------------------------
-            // ENABLE BUTTON
-            // ------------------------------------------
-
-            button.disabled = false;
-
-            button.textContent =
-                "Run Variant Simulation";
-
-        }
-    );

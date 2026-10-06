@@ -154,6 +154,7 @@ body {
     opacity: 0.9;
 }
 
+
 /* =========================
    NAVIGATION
 ========================= */
@@ -536,16 +537,63 @@ textarea {
     color: #7A5545;
 }
 
-#hashOutput {
-    min-height: 135px;
+
+/* =========================
+   MULTIPLE HASH RESULTS
+========================= */
+
+.hash-result-box {
+    background: #FFFFFF;
+
+    border: 1px solid #E2CFC4;
+
+    border-left: 4px solid #AD806D;
+
+    border-radius: 9px;
+
+    padding: 15px;
+
+    margin-top: 15px;
+}
+
+.hash-result-box label {
+    color: #7A5545;
+
+    font-weight: bold;
+
+    margin-top: 0;
+}
+
+.hash-result-box textarea {
+    min-height: 105px;
 
     word-break: break-all;
 
     font-family: monospace;
 
-    font-size: 13px;
+    font-size: 12px;
 
-    background: #FFFFFF;
+    background: #FFF8F5;
+}
+
+.hash-time {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 8px;
+
+    padding-top: 8px;
+
+    border-top: 1px solid #E5D4CB;
+
+    font-size: 14px;
+}
+
+.hash-time strong {
+    color: #7A5545;
 }
 
 
@@ -861,15 +909,15 @@ footer p {
     .formula {
         font-size: 14px;
     }
-    .variant-grid {
-        grid-template-columns: 1fr;
+
+    .hash-result-box {
+        padding: 12px;
     }
 
-    .variant-result {
-        padding: 15px;
+    .hash-time {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
     }
 
-    #variantHashOutput {
-        font-size: 12px;
-    }
 }
