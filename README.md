@@ -42,6 +42,7 @@ Argon2i/
 ├── script.js    # Hashing, verification, benchmark and quiz logic
 ├── tests.html   # Automated test suite runner
 ├── tests.js     # Automated test cases
+├── assets/CSS.mp4 # Embedded theory lesson video
 └── README.md
 ```
 
