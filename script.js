@@ -10,11 +10,14 @@ and analysis of memory cost, time cost and parallelism.
 The Argon2 browser library is loaded in index.html.
 
 IMPORTANT:
-This experiment uses:
+Main experiment uses:
 
     argon2.ArgonType.Argon2i
 
-NOT Argon2id.
+Variant simulation provides:
+
+    Argon2d
+    Argon2id
 */
 
 
@@ -440,125 +443,151 @@ document
 
     });
 
-// --------------------------------------------------
+
+// ======================================================
 // BENCHMARK
-// --------------------------------------------------
+// ======================================================
 
-document.getElementById("benchmarkBtn").addEventListener("click", async function () {
-
-    const password =
-        document.getElementById("password").value ||
-        "VirtualLabPassword123";
+document
+    .getElementById("benchmarkBtn")
+    .addEventListener("click", async function () {
 
 
-    const memory =
-        Number(document.getElementById("analysisMemory").value);
+        const password =
+            document.getElementById("password").value ||
+            "VirtualLabPassword123";
 
 
-    const time =
-        Number(document.getElementById("analysisTime").value);
+        const memory =
+            Number(
+                document
+                    .getElementById("analysisMemory")
+                    .value
+            );
 
 
-    const parallelism =
-        Number(document.getElementById("analysisParallelism").value);
+        const time =
+            Number(
+                document
+                    .getElementById("analysisTime")
+                    .value
+            );
 
 
-    const status =
-        document.getElementById("benchmarkStatus");
+        const parallelism =
+            Number(
+                document
+                    .getElementById("analysisParallelism")
+                    .value
+            );
 
 
-    const button =
-        document.getElementById("benchmarkBtn");
+        const status =
+            document.getElementById("benchmarkStatus");
 
 
-    button.disabled = true;
-
-    button.textContent = "Running Benchmark...";
-
-
-    setStatus(
-        status,
-        "Benchmark is running. Please wait...",
-        "neutral"
-    );
+        const button =
+            document.getElementById("benchmarkBtn");
 
 
-    try {
+        button.disabled = true;
 
-        const salt = crypto.getRandomValues(
-            new Uint8Array(16)
-        );
-
-
-        const startTime = performance.now();
-
-
-        await argon2.hash({
-
-            pass: password,
-
-            salt: salt,
-
-            time: time,
-
-            mem: memory,
-
-            parallelism: parallelism,
-
-            hashLen: 32,
-
-            type: argon2.ArgonType.Argon2id
-
-        });
-
-
-        const endTime = performance.now();
-
-        const elapsed =
-            endTime - startTime;
-
-
-        addBenchmarkResult(
-            memory,
-            time,
-            parallelism,
-            elapsed
-        );
-
-
-        updateObservations();
+        button.textContent =
+            "Running Benchmark...";
 
 
         setStatus(
             status,
-            "✓ Benchmark completed successfully.",
-            "success"
+            "Benchmark is running. Please wait...",
+            "neutral"
         );
 
 
-    } catch (error) {
-
-        console.error(error);
-
-        setStatus(
-            status,
-            "Benchmark error: " + error.message,
-            "error"
-        );
-
-    }
+        try {
 
 
-    button.disabled = false;
-    button.textContent = "Run Benchmark";
+            const salt =
+                crypto.getRandomValues(
+                    new Uint8Array(16)
+                );
 
-});
+
+            const startTime =
+                performance.now();
 
 
-// --------------------------------------------------
+            await argon2.hash({
+
+                pass: password,
+
+                salt: salt,
+
+                time: time,
+
+                mem: memory,
+
+                parallelism: parallelism,
+
+                hashLen: 32,
+
+                type:
+                    argon2.ArgonType.Argon2id
+
+            });
+
+
+            const endTime =
+                performance.now();
+
+
+            const elapsed =
+                endTime - startTime;
+
+
+            addBenchmarkResult(
+                memory,
+                time,
+                parallelism,
+                elapsed
+            );
+
+
+            updateObservations();
+
+
+            setStatus(
+                status,
+                "✓ Benchmark completed successfully.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            setStatus(
+                status,
+                "Benchmark error: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+
+        button.disabled = false;
+
+        button.textContent =
+            "Run Benchmark";
+
+    });
+
+
+// ======================================================
 // ADD BENCHMARK RESULT
-// --------------------------------------------------
-
+// ======================================================
 
 function addBenchmarkResult(
     memory,
@@ -566,6 +595,7 @@ function addBenchmarkResult(
     parallelism,
     elapsed
 ) {
+
 
     benchmarkNumber++;
 
@@ -598,22 +628,35 @@ function addBenchmarkResult(
 }
 
 
-// --------------------------------------------------
+// ======================================================
 // OBSERVATIONS
-// --------------------------------------------------
+// ======================================================
 
 function updateObservations() {
 
+
     const memory =
-        Number(document.getElementById("analysisMemory").value);
+        Number(
+            document
+                .getElementById("analysisMemory")
+                .value
+        );
 
 
     const time =
-        Number(document.getElementById("analysisTime").value);
+        Number(
+            document
+                .getElementById("analysisTime")
+                .value
+        );
 
 
     const parallelism =
-        Number(document.getElementById("analysisParallelism").value);
+        Number(
+            document
+                .getElementById("analysisParallelism")
+                .value
+        );
 
 
     const observation =
@@ -648,403 +691,519 @@ function updateObservations() {
         Actual execution times depend on the computer,
         browser, CPU, available memory and other running
         processes.
+
     `;
 
 }
 
 
-// --------------------------------------------------
+// ======================================================
 // QUIZ
-// --------------------------------------------------
+// ======================================================
 
-document.getElementById("quizBtn").addEventListener("click", function () {
-
-    const answers = {
-        q1: "b",
-        q2: "c",
-        q3: "b",
-        q4: "a",
-        q5: "c",
-        q6: "b",
-        q7: "c",
-        q8: "b",
-        q9: "b",
-        q10: "a"
-    };
-
-    const explanations = {
-
-        q1: "Correct. A different random salt normally produces a different Argon2i hash even when the password is the same.",
-
-        q2: "Correct. Increasing memory cost increases the amount of memory required during the Argon2i computation.",
-
-        q3: "Correct. An incorrect password should fail verification against the stored Argon2i hash.",
-
-        q4: "Correct. m=65536 means 65536 KiB of memory, t=3 is the time cost, and p=2 is the parallelism.",
-
-        q5: "Correct. Increasing the time cost parameter increases the computational work performed by Argon2i.",
-
-        q6: "Correct. Argon2i is the variant with data-independent memory access, designed with side-channel resistance in mind.",
-
-        q7: "Correct. A random salt ensures the same password produces different hashes, defeating precomputed (rainbow) tables.",
-
-        q8: "Correct. Hashing is one-way; verification re-hashes the entered password with the stored salt and parameters and compares.",
-
-        q9: "Correct. Parallelism splits the work into lanes, which can reduce execution time on multi-core systems without changing the hash length.",
-
-        q10: "Correct. The entered password is hashed with the salt and parameters embedded in the encoded hash, then compared with the stored hash."
-    };
+document
+    .getElementById("quizBtn")
+    .addEventListener("click", function () {
 
 
-    let score = 0;
+        const answers = {
 
-    const total = 10;
+            q1: "b",
+            q2: "c",
+            q3: "b",
+            q4: "a",
+            q5: "c",
+            q6: "b",
+            q7: "c",
+            q8: "b",
+            q9: "b",
+            q10: "a"
 
-
-    // Remove previous validation messages
-    document.querySelectorAll(".quiz-feedback").forEach(function (element) {
-        element.remove();
-    });
-
-
-    // Reset previous styles
-    document.querySelectorAll(".quiz-question").forEach(function (question) {
-
-        question.style.border = "1px solid #E5D4CB";
-        question.style.background = "#FFF8F5";
-
-    });
+        };
 
 
-    // Check every question
-    for (const question in answers) {
+        const explanations = {
 
-        const questionBox =
-            document.querySelector(
-                `input[name="${question}"]`
-            ).closest(".quiz-question");
+            q1:
+                "Correct. A different random salt normally produces a different Argon2i hash even when the password is the same.",
+
+            q2:
+                "Correct. Increasing memory cost increases the amount of memory required during the Argon2i computation.",
+
+            q3:
+                "Correct. An incorrect password should fail verification against the stored Argon2i hash.",
+
+            q4:
+                "Correct. m=65536 means 65536 KiB of memory, t=3 is the time cost, and p=2 is the parallelism.",
+
+            q5:
+                "Correct. Increasing the time cost parameter increases the computational work performed by Argon2i.",
+
+            q6:
+                "Correct. Argon2i is the variant with data-independent memory access, designed with side-channel resistance in mind.",
+
+            q7:
+                "Correct. A random salt ensures the same password produces different hashes, defeating precomputed (rainbow) tables.",
+
+            q8:
+                "Correct. Hashing is one-way; verification re-hashes the entered password with the stored salt and parameters and compares.",
+
+            q9:
+                "Correct. Parallelism splits the work into lanes, which can reduce execution time on multi-core systems without changing the hash length.",
+
+            q10:
+                "Correct. The entered password is hashed with the salt and parameters embedded in the encoded hash, then compared with the stored hash."
+
+        };
 
 
-        const selected =
-            document.querySelector(
-                `input[name="${question}"]:checked`
-            );
+        let score = 0;
 
-
-        const feedback =
-            document.createElement("div");
-
-
-        feedback.className =
-            "quiz-feedback";
+        const total = 10;
 
 
         // ----------------------------------------
-        // NO ANSWER SELECTED
+        // REMOVE PREVIOUS FEEDBACK
         // ----------------------------------------
 
-        if (!selected) {
+        document
+            .querySelectorAll(".quiz-feedback")
+            .forEach(function (element) {
 
-            feedback.innerHTML =
-                `
-                <strong>⚠ No answer selected.</strong><br>
-                Please select an option.
-                `;
+                element.remove();
 
-            feedback.style.background = "#FFF4DE";
-            feedback.style.color = "#805A24";
-            feedback.style.border = "1px solid #E8D09A";
-
-            questionBox.style.border =
-                "1px solid #E8D09A";
-
-
-            questionBox.appendChild(feedback);
-
-            continue;
-        }
+            });
 
 
         // ----------------------------------------
-        // CORRECT ANSWER
+        // RESET QUESTION STYLES
         // ----------------------------------------
 
-        if (selected.value === answers[question]) {
+        document
+            .querySelectorAll(".quiz-question")
+            .forEach(function (question) {
 
-            score++;
+                question.style.border =
+                    "1px solid #E5D4CB";
 
+                question.style.background =
+                    "#FFF8F5";
 
-            feedback.innerHTML =
-                `
-                <strong>✓ Correct!</strong><br>
-                ${explanations[question]}
-                `;
-
-            feedback.style.background =
-                "#DCFCE7";
-
-            feedback.style.color =
-                "#166534";
-
-            feedback.style.border =
-                "1px solid #86EFAC";
-
-
-            questionBox.style.border =
-                "2px solid #86EFAC";
-
-            questionBox.style.background =
-                "#F0FDF4";
-
-        }
+            });
 
 
         // ----------------------------------------
-        // INCORRECT ANSWER
+        // CHECK EVERY QUESTION
         // ----------------------------------------
 
-        else {
+        for (const question in answers) {
 
-            const correctOption =
+
+            const questionBox =
+                document
+                    .querySelector(
+                        `input[name="${question}"]`
+                    )
+                    .closest(".quiz-question");
+
+
+            const selected =
                 document.querySelector(
-                    `input[name="${question}"][value="${answers[question]}"]`
+                    `input[name="${question}"]:checked`
                 );
 
 
-            let correctText = "";
+            const feedback =
+                document.createElement("div");
 
 
-            if (correctOption) {
+            feedback.className =
+                "quiz-feedback";
 
-                correctText =
-                    correctOption.parentElement.textContent.trim();
+
+            // ----------------------------------------
+            // NO ANSWER
+            // ----------------------------------------
+
+            if (!selected) {
+
+
+                feedback.innerHTML = `
+                    <strong>⚠ No answer selected.</strong><br>
+                    Please select an option.
+                `;
+
+
+                feedback.style.background =
+                    "#FFF4DE";
+
+                feedback.style.color =
+                    "#805A24";
+
+                feedback.style.border =
+                    "1px solid #E8D09A";
+
+
+                questionBox.style.border =
+                    "1px solid #E8D09A";
+
+
+                questionBox.appendChild(
+                    feedback
+                );
+
+
+                continue;
 
             }
 
 
-            feedback.innerHTML =
-                `
-                <strong>✗ Incorrect.</strong><br>
-                Correct answer: <strong>${correctText}</strong>
+            // ----------------------------------------
+            // CORRECT ANSWER
+            // ----------------------------------------
+
+            if (
+                selected.value ===
+                answers[question]
+            ) {
+
+
+                score++;
+
+
+                feedback.innerHTML = `
+                    <strong>✓ Correct!</strong><br>
+                    ${explanations[question]}
                 `;
 
 
-            feedback.style.background =
-                "#FEE2E2";
+                feedback.style.background =
+                    "#DCFCE7";
 
-            feedback.style.color =
-                "#991B1B";
+                feedback.style.color =
+                    "#166534";
 
-            feedback.style.border =
-                "1px solid #FCA5A5";
+                feedback.style.border =
+                    "1px solid #86EFAC";
 
 
-            questionBox.style.border =
-                "2px solid #FCA5A5";
+                questionBox.style.border =
+                    "2px solid #86EFAC";
 
-            questionBox.style.background =
-                "#FEF2F2";
+                questionBox.style.background =
+                    "#F0FDF4";
+
+            }
+
+
+            // ----------------------------------------
+            // INCORRECT ANSWER
+            // ----------------------------------------
+
+            else {
+
+
+                const correctOption =
+                    document.querySelector(
+                        `input[name="${question}"][value="${answers[question]}"]`
+                    );
+
+
+                let correctText = "";
+
+
+                if (correctOption) {
+
+                    correctText =
+                        correctOption
+                            .parentElement
+                            .textContent
+                            .trim();
+
+                }
+
+
+                feedback.innerHTML = `
+                    <strong>✗ Incorrect.</strong><br>
+                    Correct answer:
+                    <strong>${correctText}</strong>
+                `;
+
+
+                feedback.style.background =
+                    "#FEE2E2";
+
+                feedback.style.color =
+                    "#991B1B";
+
+                feedback.style.border =
+                    "1px solid #FCA5A5";
+
+
+                questionBox.style.border =
+                    "2px solid #FCA5A5";
+
+                questionBox.style.background =
+                    "#FEF2F2";
+
+            }
+
+
+            questionBox.appendChild(
+                feedback
+            );
 
         }
 
 
-        questionBox.appendChild(feedback);
+        // ----------------------------------------
+        // CALCULATE SCORE
+        // ----------------------------------------
 
-    }
-
-
-    // ----------------------------------------
-    // CALCULATE SCORE
-    // ----------------------------------------
-
-    const percentage =
-        Math.round(
-            (score / total) * 100
-        );
+        const percentage =
+            Math.round(
+                (score / total) * 100
+            );
 
 
-    const result =
-        document.getElementById("quizResult");
+        const result =
+            document.getElementById(
+                "quizResult"
+            );
 
 
-    // ----------------------------------------
-    // DISPLAY RESULT
-    // ----------------------------------------
+        // ----------------------------------------
+        // DISPLAY RESULT
+        // ----------------------------------------
 
-    if (score === total) {
+        if (score === total) {
 
-        result.innerHTML =
-            `
-            <strong>Excellent!</strong><br>
-            Your Score: ${score}/${total}
-            (${percentage}%)
-            <br><br>
-            All answers are correct. You have demonstrated
-            a strong understanding of Argon2i.
+
+            result.innerHTML = `
+                <strong>Excellent!</strong><br>
+                Your Score: ${score}/${total}
+                (${percentage}%)
+                <br><br>
+                All answers are correct.
+                You have demonstrated
+                a strong understanding of Argon2i.
             `;
 
-        result.style.background =
-            "#DCFCE7";
+
+            result.style.background =
+                "#DCFCE7";
+
+            result.style.color =
+                "#166534";
+
+            result.style.border =
+                "1px solid #86EFAC";
+
+        }
+
+
+        else if (score >= 7) {
+
+
+            result.innerHTML = `
+                <strong>Good Attempt!</strong><br>
+                Your Score: ${score}/${total}
+                (${percentage}%)
+                <br><br>
+                Review the questions marked incorrect
+                and revisit the Argon2i theory section.
+            `;
+
+
+            result.style.background =
+                "#FEF3C7";
+
+            result.style.color =
+                "#92400E";
+
+            result.style.border =
+                "1px solid #FCD34D";
+
+        }
+
+
+        else {
+
+
+            result.innerHTML = `
+                <strong>Needs Improvement.</strong><br>
+                Your Score: ${score}/${total}
+                (${percentage}%)
+                <br><br>
+                Review the Argon2i concepts, parameters,
+                salt generation, and verification procedure
+                before attempting the quiz again.
+            `;
+
+
+            result.style.background =
+                "#FEE2E2";
+
+            result.style.color =
+                "#991B1B";
+
+            result.style.border =
+                "1px solid #FCA5A5";
+
+        }
+
+
+        // ----------------------------------------
+        // SCROLL TO RESULT
+        // ----------------------------------------
+
+        result.scrollIntoView({
+
+            behavior: "smooth",
+
+            block: "center"
+
+        });
+
+    });
+
+
+// ======================================================
+// RETAKE QUIZ
+// ======================================================
+
+document
+    .getElementById("quizResetBtn")
+    .addEventListener("click", function () {
+
+
+        // Clear all quiz radio selections
+
+        document
+            .querySelectorAll(
+                '.quiz-question input[type="radio"]'
+            )
+            .forEach(function (radio) {
+
+                radio.checked = false;
+
+            });
+
+
+        // Remove feedback boxes
+
+        document
+            .querySelectorAll(".quiz-feedback")
+            .forEach(function (el) {
+
+                el.remove();
+
+            });
+
+
+        // Restore default question styling
+
+        document
+            .querySelectorAll(".quiz-question")
+            .forEach(function (question) {
+
+                question.style.border =
+                    "1px solid #E5D4CB";
+
+                question.style.background =
+                    "#FFF8F5";
+
+            });
+
+
+        // Clear result box
+
+        const result =
+            document.getElementById(
+                "quizResult"
+            );
+
+
+        result.innerHTML = "";
+
+        result.style.background = "";
+
+        result.style.color = "";
+
+        result.style.border = "";
+
+    });
+
+
+// ======================================================
+// FEEDBACK
+// ======================================================
+
+document
+    .getElementById("feedbackBtn")
+    .addEventListener("click", function () {
+
+
+        const selected =
+            document.querySelector(
+                'input[name="rating"]:checked'
+            );
+
+
+        const feedback =
+            document
+                .getElementById("feedbackText")
+                .value;
+
+
+        const result =
+            document.getElementById(
+                "feedbackResult"
+            );
+
+
+        if (!selected) {
+
+
+            result.textContent =
+                "Please select a rating.";
+
+
+            result.style.color =
+                "#b91c1c";
+
+
+            return;
+
+        }
+
+
+        result.textContent =
+            "✓ Thank you for your feedback!";
+
 
         result.style.color =
             "#166534";
 
-        result.style.border =
-            "1px solid #86EFAC";
 
-    }
+        console.log({
 
-    else if (score >= 7) {
+            rating:
+                selected.value,
 
-        result.innerHTML =
-            `
-            <strong>Good Attempt!</strong><br>
-            Your Score: ${score}/${total}
-            (${percentage}%)
-            <br><br>
-            Review the questions marked incorrect
-            and revisit the Argon2i theory section.
-            `;
+            feedback:
+                feedback
 
-        result.style.background =
-            "#FEF3C7";
-
-        result.style.color =
-            "#92400E";
-
-        result.style.border =
-            "1px solid #FCD34D";
-
-    }
-
-    else {
-
-        result.innerHTML =
-            `
-            <strong>Needs Improvement.</strong><br>
-            Your Score: ${score}/${total}
-            (${percentage}%)
-            <br><br>
-            Review the Argon2i concepts, parameters,
-            salt generation, and verification procedure
-            before attempting the quiz again.
-            `;
-
-        result.style.background =
-            "#FEE2E2";
-
-        result.style.color =
-            "#991B1B";
-
-        result.style.border =
-            "1px solid #FCA5A5";
-
-    }
-
-
-    // ----------------------------------------
-
-
-
-    // SCROLL TO RESULT
-    // ----------------------------------------
-
-    result.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-    });
-
-});
-
-
-// --------------------------------------------------
-// --------------------------------------------------
-// RETAKE QUIZ
-// --------------------------------------------------
-
-document.getElementById("quizResetBtn").addEventListener("click", function () {
-
-    // Clear all quiz radio selections
-    document.querySelectorAll('.quiz-question input[type="radio"]').forEach(function (r) {
-        r.checked = false;
-    });
-
-    // Remove feedback boxes
-    document.querySelectorAll(".quiz-feedback").forEach(function (el) {
-        el.remove();
-    });
-
-    // Restore default question styling
-    document.querySelectorAll(".quiz-question").forEach(function (question) {
-        question.style.border = "1px solid #E5D4CB";
-        question.style.background = "#FFF8F5";
-    });
-
-    // Clear the result box
-    const result = document.getElementById("quizResult");
-    result.innerHTML = "";
-    result.style.background = "";
-    result.style.color = "";
-    result.style.border = "";
-});
-
-
-// FEEDBACK
-// --------------------------------------------------
-
-document.getElementById("feedbackBtn").addEventListener("click", function () {
-
-    const selected =
-        document.querySelector(
-            'input[name="rating"]:checked'
-        );
-
-
-    const feedback =
-        document.getElementById("feedbackText").value;
-
-
-    const result =
-        document.getElementById("feedbackResult");
-
-
-    if (!selected) {
-
-        result.textContent =
-            "Please select a rating.";
-
-        result.style.color = "#b91c1c";
-
-        return;
-
-    }
-
-
-    result.textContent =
-        "✓ Thank you for your feedback!";
-
-
-    result.style.color = "#166534";
-
-
-    console.log({
-
-        rating: selected.value,
-
-        feedback: feedback
+        });
 
     });
 
-});
+
 // ======================================================
 // ARGON2 VARIANT SIMULATION
 // ======================================================
 
-
-// Variant descriptions
-
 const variantDescriptions = {
-
 
     argon2d: {
 
@@ -1072,305 +1231,389 @@ const variantDescriptions = {
 
 
 // ======================================================
-// CHANGE VARIANT INFORMATION
+// VARIANT SELECTOR
 // ======================================================
 
-document
-    .getElementById("variantSelect")
-    .addEventListener("change", function () {
+const variantSelect =
+    document.getElementById(
+        "variantSelect"
+    );
 
 
-        const selectedVariant =
-            this.value;
+const variantInfo =
+    document.getElementById(
+        "variantInfo"
+    );
 
 
-        const information =
-            variantDescriptions[selectedVariant];
-
-
-        const infoBox =
-            document.getElementById("variantInfo");
-
-
-        infoBox.innerHTML = `
-
-            <h3>
-                ${information.name}
-            </h3>
-
-            <p>
-                ${information.description}
-            </p>
-
-        `;
-
-    });
-
-
-// ======================================================
-// ARGON2 VARIANT HASH SIMULATION
-// ======================================================
-
-document
-    .getElementById("variantHashBtn")
-    .addEventListener("click", async function () {
-
-
-        const password =
-            document
-                .getElementById("variantPassword")
-                .value;
+variantSelect.addEventListener(
+    "change",
+    function () {
 
 
         const variant =
-            document
-                .getElementById("variantSelect")
-                .value;
+            this.value;
 
 
-        const memory =
-            Number(
-                document
-                    .getElementById("variantMemory")
-                    .value
-            );
+        const info =
+            variantDescriptions[variant];
 
 
-        const time =
-            Number(
-                document
-                    .getElementById("variantTime")
-                    .value
-            );
+        if (!info) {
 
+            variantInfo.innerHTML = `
 
-        const parallelism =
-            Number(
-                document
-                    .getElementById("variantParallelism")
-                    .value
-            );
+                <h3>Select an Argon2 variant</h3>
 
+                <p>
+                    Select Argon2d or Argon2id
+                    from the dropdown to view
+                    its characteristics.
+                </p>
 
-        const status =
-            document
-                .getElementById("variantStatus");
-
-
-        const button =
-            document
-                .getElementById("variantHashBtn");
-
-
-        // ------------------------------------------
-        // PASSWORD VALIDATION
-        // ------------------------------------------
-
-        if (!password) {
-
-            setStatus(
-                status,
-                "Please enter a password first.",
-                "error"
-            );
+            `;
 
             return;
 
         }
 
 
-        // ------------------------------------------
-        // SELECT ARGON2 TYPE
-        // ------------------------------------------
+        variantInfo.innerHTML = `
 
-        let argonType;
+            <h3>${info.name}</h3>
 
+            <p>
+                ${info.description}
+            </p>
 
-        if (variant === "argon2d") {
-    argonType = argon2.ArgonType.Argon2d;
-} else if (variant === "argon2id") {
-    argonType = argon2.ArgonType.Argon2id;
-}
+        `;
 
-            argonType =
-                argon2.ArgonType.Argon2d;
-
-        }
-
-        else if (variant === "argon2id") {
-
-            argonType =
-                argon2.ArgonType.Argon2id;
-
-        }
+    }
+);
 
 
-        // ------------------------------------------
-        // BUTTON STATE
-        // ------------------------------------------
+// ======================================================
+// VARIANT HASH SIMULATION
+// ======================================================
 
-        button.disabled = true;
-
-        button.textContent =
-            "Running Simulation...";
-
-
-        setStatus(
-            status,
-            "Running " +
-            variantDescriptions[variant].name +
-            " simulation...",
-            "neutral"
-        );
+document
+    .getElementById("variantHashBtn")
+    .addEventListener(
+        "click",
+        async function () {
 
 
-        try {
+            const password =
+                document
+                    .getElementById(
+                        "variantPassword"
+                    )
+                    .value;
 
 
-            // --------------------------------------
-            // GENERATE RANDOM SALT
-            // --------------------------------------
+            const variant =
+                document
+                    .getElementById(
+                        "variantSelect"
+                    )
+                    .value;
 
-            const salt =
-                crypto.getRandomValues(
-                    new Uint8Array(16)
+
+            const memory =
+                Number(
+                    document
+                        .getElementById(
+                            "variantMemory"
+                        )
+                        .value
                 );
 
 
-            // --------------------------------------
+            const time =
+                Number(
+                    document
+                        .getElementById(
+                            "variantTime"
+                        )
+                        .value
+                );
+
+
+            const parallelism =
+                Number(
+                    document
+                        .getElementById(
+                            "variantParallelism"
+                        )
+                        .value
+                );
+
+
+            const status =
+                document
+                    .getElementById(
+                        "variantStatus"
+                    );
+
+
+            const button =
+                document
+                    .getElementById(
+                        "variantHashBtn"
+                    );
+
+
+            // ------------------------------------------
+            // VALIDATE PASSWORD
+            // ------------------------------------------
+
+            if (!password) {
+
+                setStatus(
+                    status,
+                    "Please enter a password first.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // ------------------------------------------
+            // SELECT ARGON2 TYPE
+            // ------------------------------------------
+
+            let argonType;
+
+
+            if (variant === "argon2d") {
+
+                argonType =
+                    argon2.ArgonType.Argon2d;
+
+            }
+
+
+            else if (variant === "argon2id") {
+
+                argonType =
+                    argon2.ArgonType.Argon2id;
+
+            }
+
+
+            else {
+
+                setStatus(
+                    status,
+                    "Please select a valid Argon2 variant.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            // ------------------------------------------
+            // BUTTON STATE
+            // ------------------------------------------
+
+            button.disabled = true;
+
+            button.textContent =
+                "Running Simulation...";
+
+
+            setStatus(
+                status,
+                `Running ${variantDescriptions[variant].name} simulation...`,
+                "neutral"
+            );
+
+
+            // ------------------------------------------
             // START TIMER
-            // --------------------------------------
+            // ------------------------------------------
 
             const startTime =
                 performance.now();
 
 
-            // --------------------------------------
-            // ARGON2 HASH
-            // --------------------------------------
-
-            const result =
-                await argon2.hash({
-
-                    pass:
-                        password,
-
-                    salt:
-                        salt,
-
-                    time:
-                        time,
-
-                    mem:
-                        memory,
-
-                    parallelism:
-                        parallelism,
-
-                    hashLen:
-                        32,
-
-                    type:
-                        argonType
-
-                });
+            try {
 
 
-            // --------------------------------------
-            // END TIMER
-            // --------------------------------------
+                // --------------------------------------
+                // GENERATE SALT
+                // --------------------------------------
 
-            const endTime =
-                performance.now();
-
-
-            const elapsed =
-                endTime - startTime;
+                const salt =
+                    crypto.getRandomValues(
+                        new Uint8Array(16)
+                    );
 
 
-            // --------------------------------------
-            // DISPLAY HASH
-            // --------------------------------------
+                // --------------------------------------
+                // RUN ARGON2 VARIANT
+                // --------------------------------------
 
-            document
-                .getElementById("variantHashOutput")
-                .value =
-                result.encoded;
+                const result =
+                    await argon2.hash({
 
+                        pass:
+                            password,
 
-            // --------------------------------------
-            // DISPLAY INFORMATION
-            // --------------------------------------
+                        salt:
+                            salt,
 
-            document
-                .getElementById("variantResultName")
-                .textContent =
-                variantDescriptions[variant].name;
+                        time:
+                            time,
 
+                        mem:
+                            memory,
 
-            document
-                .getElementById("variantResultTime")
-                .textContent =
-                elapsed.toFixed(2) + " ms";
+                        parallelism:
+                            parallelism,
 
+                        hashLen:
+                            32,
 
-            document
-                .getElementById("variantResultMemory")
-                .textContent =
-                getMemoryInMB(memory) + " MB";
+                        type:
+                            argonType
 
-
-            document
-                .getElementById("variantResultTimeCost")
-                .textContent =
-                time;
+                    });
 
 
-            document
-                .getElementById("variantResultParallelism")
-                .textContent =
-                parallelism;
+                // --------------------------------------
+                // END TIMER
+                // --------------------------------------
+
+                const endTime =
+                    performance.now();
 
 
-            // --------------------------------------
-            // SUCCESS MESSAGE
-            // --------------------------------------
-
-            setStatus(
-                status,
-                "✓ " +
-                variantDescriptions[variant].name +
-                " hash generated successfully.",
-                "success"
-            );
+                const elapsed =
+                    endTime - startTime;
 
 
-        } catch (error) {
+                // --------------------------------------
+                // DISPLAY HASH
+                // --------------------------------------
+
+                document
+                    .getElementById(
+                        "variantHashOutput"
+                    )
+                    .value =
+                    result.encoded;
 
 
-            console.error(
-                "Variant simulation error:",
-                error
-            );
+                // --------------------------------------
+                // DISPLAY VARIANT
+                // --------------------------------------
+
+                document
+                    .getElementById(
+                        "variantResultName"
+                    )
+                    .textContent =
+                    variantDescriptions[
+                        variant
+                    ].name;
 
 
-            setStatus(
-                status,
-                "Error: " +
-                error.message,
-                "error"
-            );
+                // --------------------------------------
+                // DISPLAY TIME
+                // --------------------------------------
+
+                document
+                    .getElementById(
+                        "variantHashTime"
+                    )
+                    .textContent =
+                    elapsed.toFixed(2) +
+                    " ms";
+
+
+                // --------------------------------------
+                // DISPLAY MEMORY
+                // --------------------------------------
+
+                document
+                    .getElementById(
+                        "variantResultMemory"
+                    )
+                    .textContent =
+                    getMemoryInMB(memory) +
+                    " MB";
+
+
+                // --------------------------------------
+                // DISPLAY TIME COST
+                // --------------------------------------
+
+                document
+                    .getElementById(
+                        "variantResultTime"
+                    )
+                    .textContent =
+                    time;
+
+
+                // --------------------------------------
+                // DISPLAY PARALLELISM
+                // --------------------------------------
+
+                document
+                    .getElementById(
+                        "variantResultParallelism"
+                    )
+                    .textContent =
+                    parallelism;
+
+
+                // --------------------------------------
+                // SUCCESS
+                // --------------------------------------
+
+                setStatus(
+                    status,
+                    `✓ ${variantDescriptions[variant].name} simulation completed successfully.`,
+                    "success"
+                );
+
+
+            }
+
+
+            catch (error) {
+
+
+                console.error(
+                    "Variant simulation error:",
+                    error
+                );
+
+
+                setStatus(
+                    status,
+                    "Error while running variant simulation: " +
+                    error.message,
+                    "error"
+                );
+
+            }
+
+
+            // ------------------------------------------
+            // ENABLE BUTTON
+            // ------------------------------------------
+
+            button.disabled = false;
+
+            button.textContent =
+                "Run Variant Simulation";
 
         }
-
-
-        // ------------------------------------------
-        // ENABLE BUTTON
-        // ------------------------------------------
-
-        button.disabled = false;
-
-        button.textContent =
-            "Run Variant Simulation";
-
-    });
+    );
