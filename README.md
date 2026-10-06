@@ -1,62 +1,111 @@
-# Argon2i Password Hashing: Virtual Lab
+# Argon2i Password Hashing Lab
 
-An interactive, browser-based experiment on **Argon2i**, the data-independent variant of the Argon2 password hashing function. Part of the **Virtual Cryptography Laboratory** for the *Cryptographic Security Systems (CSS)* course.
+> An interactive, browser-based virtual laboratory for understanding password hashing, Argon2i parameters, verification, and memory-hardness.
 
-Students can generate Argon2i hashes, verify passwords, and measure how memory cost, time cost and parallelism change the hashing time. Everything runs locally in the browser, and no password is ever sent to a server.
+<p align="center">
+  <a href="https://argon2.lebronpereira.in"><strong>Live demo</strong></a>
+  ·
+  <a href="https://github.com/aaryas147/Argon2i/blob/main/tests.html">Run the test suite</a>
+</p>
+
+![Argon2i Virtual Lab](https://img.shields.io/badge/Virtual%20Lab-Argon2i-8F6755?style=for-the-badge)
+![Browser](https://img.shields.io/badge/runs%20in-browser-HTML%20%2B%20WASM-AD806D?style=flat-square)
+![License](https://img.shields.io/badge/license-educational-E5D4CB?style=flat-square)
+
+## Explore the lab
+
+The lab follows a complete password-verification journey:
+
+```mermaid
+flowchart LR
+    A[Enter password] --> B[Choose m · t · p]
+    B --> C[Generate fresh salt]
+    C --> D[Argon2i in WebAssembly]
+    D --> E[Encoded password hash]
+    E --> F[Verify later]
+    F --> G{Hashes match?}
+    G -->|Yes| H[Accept login]
+    G -->|No| I[Reject login]
+```
+
+### What you can do
+
+| Area | Experience |
+| --- | --- |
+| **Theory** | Learn hashing vs. encryption, memory-hardness, variants, and encoded hashes. |
+| **Procedure** | Follow the experiment step by step. |
+| **Experiment** | Generate Argon2i hashes and verify passwords locally. |
+| **Analysis** | Benchmark memory cost, time cost, and parallelism. |
+| **Test Cases** | Run documented and interactive checks against the real implementation. |
+| **Quiz** | Check your understanding with feedback and scoring. |
 
 ## Live demo
 
-Try the lab online at <https://argon2.lebronpereira.in>.
+Open the hosted lab at **[argon2.lebronpereira.in](https://argon2.lebronpereira.in)**.
 
----
+The project has no backend. Passwords stay in the browser and are never sent to a server by the lab.
 
-## Aim
+## Why Argon2i?
 
-To implement Argon2i password hashing and verification, and to analyze the effect of memory cost, time cost and parallelism on hashing.
+Argon2 is designed to make password guessing expensive by using memory as part of the computation. Argon2i uses data-independent memory access, which is useful when side-channel resistance is important.
 
-## Features
+```mermaid
+flowchart TD
+    P[Password] --> M[Mix password + salt + parameters]
+    S[Fresh random salt] --> M
+    C[Memory m · time t · lanes p] --> M
+    M --> Z[Initialize memory lanes]
+    Z --> R[Repeated passes over memory]
+    R --> T[Produce encoded tag]
+    T --> DB[(Store hash record)]
+    DB --> V[Recompute during login]
+    V --> X{Constant-time comparison}
+    X -->|Match| OK[Authenticated]
+    X -->|Mismatch| NO[Rejected]
+```
 
-- **Theory:** background on password hashing, memory-hardness, Argon2 variants, parameters, the algorithm steps, and how to read an encoded hash.
-- **Procedure:** step-by-step instructions for performing the experiment.
-- **Interactive experiment:** generate an Argon2i hash with a chosen memory cost, time cost and parallelism, and see the encoded hash and the hashing time.
-- **Password verification:** check whether a password matches the generated hash.
-- **Parameter analysis:** run benchmarks with different settings and compare execution times.
-- **Test cases:** documented test cases (TC01–TC12) covering hashing, verification, parameter analysis and the quiz, with expected and actual results.
-- **Automated test suite:** `tests.html` runs ten automated checks against the real experiment logic (hash format, salt uniqueness, determinism, verification, quiz mechanics and the benchmark).
-- **Assessment and quiz:** a ten-question quiz with per-question feedback, scoring and a retake option.
-- **References and feedback** sections.
+## Parameters at a glance
 
-## Tech stack
+| Parameter | Meaning | Increasing it generally does |
+| --- | --- | --- |
+| `m` — memory cost | RAM used, in KiB | Makes each password guess require more memory. |
+| `t` — time cost | Number of passes over memory | Increases computation time. |
+| `p` — parallelism | Number of lanes/threads | Splits work across lanes and changes resource usage. |
 
-| Part | Technology |
+```mermaid
+graph LR
+    M[m: memory] --> W[Work required per guess]
+    T[t: passes] --> W
+    P[p: lanes] --> W
+    W --> A[Verification cost]
+    W --> R[Attacker cost]
+```
+
+> Parameters should be benchmarked on the real server that will verify passwords. This lab is for learning and comparison, not a production tuning prescription.
+
+## Encoded hash anatomy
+
+```text
+$argon2i$v=19$m=65536,t=3,p=2$<salt>$<tag>
+```
+
+| Segment | Meaning |
 | --- | --- |
-| Structure | HTML5 |
-| Styling | CSS3 |
-| Logic | Vanilla JavaScript |
-| Hashing | [argon2-browser](https://github.com/antelle/argon2-browser) v1.18.0 (WebAssembly), loaded from the jsDelivr CDN |
+| `argon2i` | Algorithm variant |
+| `v=19` | Argon2 version |
+| `m=65536` | 64 MiB memory (`65536` KiB) |
+| `t=3` | Three passes |
+| `p=2` | Two lanes |
+| `<salt>` | Unique random salt |
+| `<tag>` | Derived password-verification result |
 
-There is no backend and no build step.
+## Quick start
 
-## Project structure
+### Requirements
 
-```
-Argon2i/
-├── index.html   # Page structure and content (theory, experiment, test cases, quiz, etc.)
-├── style.css    # Styling and layout
-├── script.js    # Hashing, verification, benchmark and quiz logic
-├── tests.html   # Automated test suite runner
-├── tests.js     # Automated test cases
-├── assets/CSS.mp4 # Embedded theory lesson video
-└── README.md
-```
-
-## Getting started
-
-### Prerequisites
-
-- A modern browser (Chrome, Firefox, Edge or Safari)
-- An internet connection (the Argon2 library is loaded from a CDN)
-- Optional: Python 3, to run a local server
+- A modern browser: Chrome, Firefox, Edge, or Safari
+- Internet access for the `argon2-browser` CDN dependency
+- Python 3 for a local server, if desired
 
 ### Run locally
 
@@ -66,51 +115,83 @@ cd Argon2i
 python3 -m http.server 8000
 ```
 
-On Windows, use `py -m http.server 8000`. Then open <http://localhost:8000> in your browser.
+Then open <http://localhost:8000>.
 
-You can also open `index.html` directly, but a local server is more reliable.
+On Windows, use:
 
-## How to use the lab
-
-1. Enter a password in the experiment section.
-2. Choose the memory cost, time cost and parallelism.
-3. Click **Generate Argon2i Hash** and note the encoded hash and the time taken.
-4. Enter the password in the verification section and click **Verify Password**.
-5. Change one parameter at a time and run the benchmark in the analysis section.
-6. Compare the execution times and read the observations.
-7. Attempt the quiz.
-8. Optionally open `tests.html` and click **Run All Tests** to see the automated test suite pass.
-
-## Understanding the parameters
-
-| Parameter | Meaning | Effect when increased |
-| --- | --- | --- |
-| Memory cost (m) | RAM used, in KiB | More memory per guess, so attacks cost more |
-| Time cost (t) | Number of passes over memory | Longer computation |
-| Parallelism (p) | Number of lanes | Work is split across lanes and threads |
-
-An encoded hash looks like this:
-
-```
-$argon2i$v=19$m=65536,t=3,p=2$<salt>$<hash>
+```bash
+py -m http.server 8000
 ```
 
-Here `m=65536, t=3, p=2` means 65536 KiB (64 MiB) of memory, 3 passes and 2 lanes.
+Opening `index.html` directly may work, but a local server is more reliable for the WebAssembly and video assets.
 
-## Integration note
+## Suggested learning path
 
-This repository is the standalone version of the experiment. It will be adapted into the shared Virtual Cryptography Laboratory portal, which uses the Theory, Procedure, Simulation and Quiz tab layout.
+1. Read **Theory** to understand hashing, variants, salts, and cost parameters.
+2. Follow **Procedure** once without changing the defaults.
+3. Use **Experiment** to generate a hash and verify the original password.
+4. Change one parameter at a time in **Analysis**.
+5. Compare the measured execution times.
+6. Open **Test Cases** and run the automated checks.
+7. Finish with the **Quiz**.
+
+## Test suite
+
+The repository includes an interactive test runner at [`tests.html`](tests.html).
+
+It checks the real lab logic, including:
+
+- Hash format and variant
+- Salt uniqueness
+- Deterministic output with fixed inputs
+- Password verification and rejection
+- Parameter handling
+- Benchmark behavior
+- Quiz mechanics
+
+Open <http://localhost:8000/tests.html> after starting the local server and select **Run All Tests**.
+
+## Project structure
+
+```text
+Argon2i/
+├── index.html          # Theory, procedure, experiment, analysis, quiz, and references
+├── style.css           # Layout, responsive styling, animation, and visual system
+├── script.js           # Hashing, verification, benchmarks, navigation, and quiz logic
+├── tests.html          # Interactive automated test runner
+├── tests.js            # Test definitions and assertions
+├── assets/
+│   └── CSS.mp4         # Embedded theory lesson video
+└── README.md
+```
+
+## Tech stack
+
+| Layer | Technology |
+| --- | --- |
+| Structure | HTML5 |
+| Styling | CSS3 |
+| Logic | Vanilla JavaScript |
+| Cryptography | [`argon2-browser`](https://github.com/antelle/argon2-browser) v1.18.0 |
+| Execution | WebAssembly in the browser |
+| Video | Local MP4 asset with native browser controls |
+
+There is no backend and no build step.
 
 ## Team
 
-- Aarya
-- Disha
-- Chris
-- Lebron
+- [Aarya Sawant](https://www.linkedin.com/in/aarya-sawant-14643134/)
+- [Disha Shetty](https://www.linkedin.com/in/disha-shetty-606615352/)
+- [Chris Pereira](https://www.linkedin.com/in/chris-pereira-543119330/)
+- [Lebron Pereira](https://www.linkedin.com/in/lebronpereira/)
 
 ## References
 
-- A. Biryukov, D. Dinu, D. Khovratovich, *Argon2: the memory-hard function for password hashing and other applications*
-- [RFC 9106: Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications](https://www.rfc-editor.org/rfc/rfc9106)
+- A. Biryukov, D. Dinu, and D. Khovratovich, *Argon2: the memory-hard function for password hashing and other applications*
+- [RFC 9106 — Argon2 Memory-Hard Function for Password Hashing and Proof-of-Work Applications](https://www.rfc-editor.org/rfc/rfc9106)
 - [Password Hashing Competition](https://www.password-hashing.net/)
-- [argon2-browser](https://github.com/antelle/argon2-browser)
+- [`argon2-browser`](https://github.com/antelle/argon2-browser)
+
+## Scope and safety note
+
+This is an educational virtual laboratory. Use a maintained server-side password-hashing library and benchmark production parameters in the environment where passwords will actually be verified.
