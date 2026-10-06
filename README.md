@@ -9,7 +9,7 @@
 </p>
 
 ![Argon2i Virtual Lab](https://img.shields.io/badge/Virtual%20Lab-Argon2i-8F6755?style=for-the-badge)
-![Browser](https://img.shields.io/badge/runs%20in-browser-HTML%20%2B%20WASM-AD806D?style=flat-square)
+![Browser](https://img.shields.io/badge/Browser-HTML5%20%7C%20WASM-AD806D?style=flat-square)
 ![License](https://img.shields.io/badge/license-educational-E5D4CB?style=flat-square)
 
 ## Explore the lab
