@@ -59,17 +59,17 @@ Implementation, Verification and Parameter Analysis
 
     <nav class="navbar">
 
-        <a href="#aim">Aim</a>
-        <a href="#theory">Theory</a>
-        <a href="#procedure">Procedure</a>
-        <a href="#experiment">Experiment</a>
-        <a href="#analysis">Analysis</a>
-        <a href="#testcases">Test Cases</a>
-        <a href="#quiz">Quiz</a>
-        <a href="#references">References</a>
-        <a href="#feedback">Feedback</a>
+    <a href="#aim">Aim</a>
+    <a href="#theory">Theory</a>
+    <a href="#procedure">Procedure</a>
+    <a href="#experiment">Experiment</a>
+    <a href="#variants">Variants</a>
+    <a href="#analysis">Analysis</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#references">References</a>
+    <a href="#feedback">Feedback</a>
 
-    </nav>
+</nav>
 
 
     <!-- ================= MAIN ================= -->
@@ -590,7 +590,343 @@ Implementation, Verification and Parameter Analysis
 
         </section>
 
+<!-- ================= ARGON2 VARIANT SIMULATION ================= -->
 
+<section class="card" id="variants">
+
+    <div class="section-number">05</div>
+
+    <h2>Argon2 Variant Simulation</h2>
+
+<p class="description">
+    Explore Argon2d and Argon2id and compare their
+    hashing behaviour using the same password and parameters.
+</p>
+
+
+    <div class="variant-selector">
+
+        <label for="variantSelect">
+            Select Argon2 Variant
+        </label>
+
+        <select id="variantSelect">
+
+            <option value="argon2d">
+                Argon2d - Data-Dependent
+            </option>
+
+            <option value="argon2id">
+                Argon2id - Hybrid
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- Variant Information -->
+
+    <div id="variantInfo" class="variant-info">
+
+    <h3>Select an Argon2 variant</h3>
+
+    <p>
+        Select Argon2d or Argon2id from the dropdown
+        to view its characteristics.
+    </p>
+
+</div>
+
+    <!-- Simulation Controls -->
+
+    <div class="variant-grid">
+
+
+        <div>
+
+            <label for="variantPassword">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="variantPassword"
+                placeholder="Enter a password"
+            >
+
+        </div>
+
+
+        <div>
+
+            <label for="variantMemory">
+                Memory Cost
+            </label>
+
+            <select id="variantMemory">
+
+                <option value="16384">
+                    16 MB
+                </option>
+
+                <option value="32768">
+                    32 MB
+                </option>
+
+                <option value="65536" selected>
+                    64 MB
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div>
+
+            <label for="variantTime">
+                Time Cost
+            </label>
+
+            <select id="variantTime">
+
+                <option value="1">
+                    1
+                </option>
+
+                <option value="2" selected>
+                    2
+                </option>
+
+                <option value="3">
+                    3
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div>
+
+            <label for="variantParallelism">
+                Parallelism
+            </label>
+
+            <select id="variantParallelism">
+
+                <option value="1" selected>
+                    1
+                </option>
+
+                <option value="2">
+                    2
+                </option>
+
+                <option value="3">
+                    3
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+
+    <button
+        id="variantHashBtn"
+        class="primary-btn"
+    >
+        Run Variant Simulation
+    </button>
+
+
+    <!-- Simulation Result -->
+
+    <div
+        id="variantStatus"
+        class="status neutral"
+    >
+        Select a variant and run the simulation.
+    </div>
+
+
+    <div class="variant-result">
+
+        <h3>Simulation Result</h3>
+
+        <label>
+            Generated Hash
+        </label>
+
+        <textarea
+            id="variantHashOutput"
+            readonly
+            placeholder="Generated hash will appear here..."
+        ></textarea>
+
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <span>
+                    Variant
+                </span>
+
+                <strong id="variantResultName">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Execution Time
+                </span>
+
+                <strong id="variantResultTime">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Memory
+                </span>
+
+                <strong id="variantResultMemory">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Time Cost
+                </span>
+
+                <strong id="variantResultTimeCost">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    Parallelism
+                </span>
+
+                <strong id="variantResultParallelism">
+                    -
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Comparison -->
+
+    <h3>Variant Comparison</h3>
+
+    <div class="table-wrapper">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Variant
+                    </th>
+
+                    <th>
+                        Memory Access
+                    </th>
+
+                    <th>
+                        Main Characteristic
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <strong>Argon2d</strong>
+                    </td>
+
+                    <td>
+                        Data-dependent
+                    </td>
+
+                    <td>
+                        Designed for high resistance
+                        to GPU cracking
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <strong>Argon2i</strong>
+                    </td>
+
+                    <td>
+                        Data-independent
+                    </td>
+
+                    <td>
+                        Designed with side-channel
+                        resistance in mind
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>
+                        <strong>Argon2id</strong>
+                    </td>
+
+                    <td>
+                        Hybrid
+                    </td>
+
+                    <td>
+                        Combines characteristics
+                        of Argon2i and Argon2d
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
         <!-- ================= VERIFICATION ================= -->
 
         <section class="card">

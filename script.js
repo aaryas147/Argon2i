@@ -1036,3 +1036,341 @@ document.getElementById("feedbackBtn").addEventListener("click", function () {
     });
 
 });
+// ======================================================
+// ARGON2 VARIANT SIMULATION
+// ======================================================
+
+
+// Variant descriptions
+
+const variantDescriptions = {
+
+
+    argon2d: {
+
+        name: "Argon2d",
+
+        description:
+            "Argon2d uses data-dependent memory access. " +
+            "It is designed to provide strong resistance " +
+            "against certain brute-force and GPU-based attacks."
+
+    },
+
+
+    argon2id: {
+
+        name: "Argon2id",
+
+        description:
+            "Argon2id combines characteristics of Argon2i " +
+            "and Argon2d, using a hybrid memory-access strategy."
+
+    }
+
+};
+
+
+// ======================================================
+// CHANGE VARIANT INFORMATION
+// ======================================================
+
+document
+    .getElementById("variantSelect")
+    .addEventListener("change", function () {
+
+
+        const selectedVariant =
+            this.value;
+
+
+        const information =
+            variantDescriptions[selectedVariant];
+
+
+        const infoBox =
+            document.getElementById("variantInfo");
+
+
+        infoBox.innerHTML = `
+
+            <h3>
+                ${information.name}
+            </h3>
+
+            <p>
+                ${information.description}
+            </p>
+
+        `;
+
+    });
+
+
+// ======================================================
+// ARGON2 VARIANT HASH SIMULATION
+// ======================================================
+
+document
+    .getElementById("variantHashBtn")
+    .addEventListener("click", async function () {
+
+
+        const password =
+            document
+                .getElementById("variantPassword")
+                .value;
+
+
+        const variant =
+            document
+                .getElementById("variantSelect")
+                .value;
+
+
+        const memory =
+            Number(
+                document
+                    .getElementById("variantMemory")
+                    .value
+            );
+
+
+        const time =
+            Number(
+                document
+                    .getElementById("variantTime")
+                    .value
+            );
+
+
+        const parallelism =
+            Number(
+                document
+                    .getElementById("variantParallelism")
+                    .value
+            );
+
+
+        const status =
+            document
+                .getElementById("variantStatus");
+
+
+        const button =
+            document
+                .getElementById("variantHashBtn");
+
+
+        // ------------------------------------------
+        // PASSWORD VALIDATION
+        // ------------------------------------------
+
+        if (!password) {
+
+            setStatus(
+                status,
+                "Please enter a password first.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        // ------------------------------------------
+        // SELECT ARGON2 TYPE
+        // ------------------------------------------
+
+        let argonType;
+
+
+        if (variant === "argon2d") {
+    argonType = argon2.ArgonType.Argon2d;
+} else if (variant === "argon2id") {
+    argonType = argon2.ArgonType.Argon2id;
+}
+
+            argonType =
+                argon2.ArgonType.Argon2d;
+
+        }
+
+        else if (variant === "argon2id") {
+
+            argonType =
+                argon2.ArgonType.Argon2id;
+
+        }
+
+
+        // ------------------------------------------
+        // BUTTON STATE
+        // ------------------------------------------
+
+        button.disabled = true;
+
+        button.textContent =
+            "Running Simulation...";
+
+
+        setStatus(
+            status,
+            "Running " +
+            variantDescriptions[variant].name +
+            " simulation...",
+            "neutral"
+        );
+
+
+        try {
+
+
+            // --------------------------------------
+            // GENERATE RANDOM SALT
+            // --------------------------------------
+
+            const salt =
+                crypto.getRandomValues(
+                    new Uint8Array(16)
+                );
+
+
+            // --------------------------------------
+            // START TIMER
+            // --------------------------------------
+
+            const startTime =
+                performance.now();
+
+
+            // --------------------------------------
+            // ARGON2 HASH
+            // --------------------------------------
+
+            const result =
+                await argon2.hash({
+
+                    pass:
+                        password,
+
+                    salt:
+                        salt,
+
+                    time:
+                        time,
+
+                    mem:
+                        memory,
+
+                    parallelism:
+                        parallelism,
+
+                    hashLen:
+                        32,
+
+                    type:
+                        argonType
+
+                });
+
+
+            // --------------------------------------
+            // END TIMER
+            // --------------------------------------
+
+            const endTime =
+                performance.now();
+
+
+            const elapsed =
+                endTime - startTime;
+
+
+            // --------------------------------------
+            // DISPLAY HASH
+            // --------------------------------------
+
+            document
+                .getElementById("variantHashOutput")
+                .value =
+                result.encoded;
+
+
+            // --------------------------------------
+            // DISPLAY INFORMATION
+            // --------------------------------------
+
+            document
+                .getElementById("variantResultName")
+                .textContent =
+                variantDescriptions[variant].name;
+
+
+            document
+                .getElementById("variantResultTime")
+                .textContent =
+                elapsed.toFixed(2) + " ms";
+
+
+            document
+                .getElementById("variantResultMemory")
+                .textContent =
+                getMemoryInMB(memory) + " MB";
+
+
+            document
+                .getElementById("variantResultTimeCost")
+                .textContent =
+                time;
+
+
+            document
+                .getElementById("variantResultParallelism")
+                .textContent =
+                parallelism;
+
+
+            // --------------------------------------
+            // SUCCESS MESSAGE
+            // --------------------------------------
+
+            setStatus(
+                status,
+                "✓ " +
+                variantDescriptions[variant].name +
+                " hash generated successfully.",
+                "success"
+            );
+
+
+        } catch (error) {
+
+
+            console.error(
+                "Variant simulation error:",
+                error
+            );
+
+
+            setStatus(
+                status,
+                "Error: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+
+        // ------------------------------------------
+        // ENABLE BUTTON
+        // ------------------------------------------
+
+        button.disabled = false;
+
+        button.textContent =
+            "Run Variant Simulation";
+
+    });

@@ -861,5 +861,15 @@ footer p {
     .formula {
         font-size: 14px;
     }
+    .variant-grid {
+        grid-template-columns: 1fr;
+    }
 
+    .variant-result {
+        padding: 15px;
+    }
+
+    #variantHashOutput {
+        font-size: 12px;
+    }
 }
